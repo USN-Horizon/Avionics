@@ -22,23 +22,6 @@ The avionics team designs the electronics and software that fly inside the rocke
 | **Ground station** | A self contained station in a hard case. Receives telemetry, logs every flight and shows live data to the team at the launch site. |
 | **Simulation** | Runs the flight software against simulated flights, so the code is tested long before it flies. |
 
-```mermaid
-flowchart LR
-    subgraph Rocket
-        FC[SRAD flight computer]
-        CATS[CATS Vega backup]
-    end
-    subgraph Ground
-        GS[Horizon ground station]
-        CGS[CATS ground station]
-        LIVE[Live view for the team]
-    end
-    SIM[HIL simulation] -.->|tests| FC
-    FC -->|telemetry| GS
-    CATS -->|telemetry| CGS
-    GS --> LIVE
-```
-
 ## Repository structure
 
 ```text
