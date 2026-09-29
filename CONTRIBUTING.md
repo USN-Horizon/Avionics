@@ -4,18 +4,18 @@ This document describes rules, best practices and workflows for contributing in 
 <br>
 The USN Horizon Git Standard is based on the [GitHub Flow](https://docs.github.com/en/get-started/using-github/github-flow).
 
-## Branch naming convension
+## Branch naming convention
 
 The *main*-branch is the default, stable branch. Its content is in a ready and tested state.
 <br>
-When a new task is started, a branch is created branching of *main*.
+When a new task is started, a branch is created branching off *main*.
 
 The naming convention of branches is as follows:
 ```
-/<branch-type>/<short-description>
+<branch-type>/<short-description>
 ```
 
-An example of a branch could be: */feature/sensor-interface*
+An example of a branch could be: *feature/sensor-interface*
 
 |Branch Type|Use case|
 |---|---|
@@ -49,7 +49,7 @@ An example of a branch could be: */feature/sensor-interface*
     - **Why it was changed**
     - **How it works** (for complex changes)
     - **Testing** (If relevant)
-    <br>
+
     Keywords are good enough, but remember: **The goal is to make sure someone else will get a clear view of what the pull request is about at a glance**.
 - Reviewing pull requests is just as important to the workflow as writing the code. Without reviews, the changes will never be integrated into the project! **Make sure to set aside some time to review code you've been assigned to review!**
 - If a pull request has gone stale (not touched in a long while), notify your team and make sure it gets seen.
