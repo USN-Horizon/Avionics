@@ -43,7 +43,7 @@ Every folder has its own README explaining what belongs there.
 
 | Area | Tools |
 | --- | --- |
-| PCB design | Altium Designer and Altium 365 |
+| PCB design and Wiring | Altium Designer and E3.Series|
 | Flight firmware | C++, RTOS still being evaluated (Zephyr, FreeRTOS or bare metal) |
 | Ground station | To be decided |
 
