@@ -12,7 +12,7 @@
 
 Flight computers, ground station, telemetry and simulation for USN Horizon's rockets.
 
-The avionics team designs the electronics and software that fly inside the rocket, and the systems that follow it from the ground. For EuRoC 2027 that means our own flight computer, a ground station built into a rugged case, the telemetry link between them, and a hardware in the loop (HIL) setup that tests the flight software against simulated flights before it ever leaves the ground.
+The avionics team designs the electronics and software that fly inside the rocket, and the systems that follow it from the ground. For EuRoC 2027 that means our own flight computer, a ground station, the telemetry link between them, and a hardware in the loop (HIL) setup that tests the flight software against simulated flights before it ever leaves the ground.
 
 ## What we build
 
