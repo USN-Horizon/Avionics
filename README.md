@@ -45,7 +45,7 @@ flowchart LR
 Avionics/
 ├── hardware/
 │   ├── flight-computer/    Flight computer PCB design
-│   └── ground-station/     Ground station PCBs and case
+│   └── ground-station/     Ground station PCB design and case
 ├── software/
 │   ├── flight-computer/    Flight firmware
 │   ├── ground-station/     Telemetry receiver, logging and live view
@@ -61,8 +61,8 @@ Every folder has its own README explaining what belongs there.
 | Area | Tools |
 | --- | --- |
 | PCB design | Altium Designer and Altium 365 |
-| Flight firmware | C++ on Zephyr RTOS |
-| Ground station | Python, MCAP logging, Foxglove or Lichtblick for the live view |
+| Flight firmware | C++, RTOS still being evaluated (Zephyr, FreeRTOS or bare metal) |
+| Ground station | To be decided |
 
 ## Contributing
 
