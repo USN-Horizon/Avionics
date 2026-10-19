@@ -7,13 +7,27 @@ from pathlib import Path
 from data import SystemData
 
 current_data: SystemData = SystemData()
-connections: list[WebSocket] = []
 
-# This is a VERY janky solution
-# TODO: Fix this lol
-def RemoveDisconnectedWebSockets():
-    global connections
-    connections = [ c for c in connections if c.client_state != WebSocketState.DISCONNECTED ]
+# Adapted from: https://fastapi.tiangolo.com/advanced/websockets/#handling-disconnections-and-multiple-clients
+class ConnectionManager:
+    def __init__(self):
+        self.active_connections: list[WebSocket] = []
+
+    async def connect(self, websocket: WebSocket):
+        await websocket.accept()
+        self.active_connections.append(websocket)
+
+    def disconnect(self, websocket: WebSocket):
+        self.active_connections.remove(websocket)
+
+    async def sendToAll(self, data):
+        for connection in self.active_connections:
+            try:
+                await connection.send_json(data)
+            except WebSocketDisconnect:
+                self.disconnect(connection)
+
+ws_manager = ConnectionManager()
 
 app = FastAPI()
 
@@ -45,30 +59,17 @@ async def update_data(data: SystemData):
         current_data.battery = data.battery
 
     # Send updated values to webpage via websocket connection(s)
-    connection_closed = False
-    for connection in connections:
-        try:
-            await connection.send_json(current_data.model_dump(exclude_unset=True))
-        except WebSocketDisconnect:
-            connection_closed = True
+    await ws_manager.sendToAll(current_data.model_dump(exclude_unset=True))
 
-    # Remove any connections that may have been closed (janky)
-    if connection_closed:
-        RemoveDisconnectedWebSockets()
 
 # Create the websocket endpoint
-# This has a habit of throwing some exceptions (but not crashing!) when relaunching a page
-# TODO: WebSocket connection manager perhaps?
-# https://fastapi.tiangolo.com/advanced/websockets/#handling-disconnections-and-multiple-clients
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
-    await websocket.accept()
-    connections.append(websocket)
+    await ws_manager.connect(websocket)
 
     while True:
         try:
-            # I have no idea why, but this seems to keep the websocket alive lol
             data = await websocket.receive_text()
             await websocket.send_text(data)
-        except WebSocketDisconnect:
-            RemoveDisconnectedWebSockets()
+        except Exception:
+            break
