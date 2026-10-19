@@ -10,6 +10,10 @@ import time
 import requests
 
 from data import SystemData
+from webserver_api import WebServerAPI
+import common
+
+api = WebServerAPI(common.WEBSERVER_HOST, common.WEBSERVER_PORT)
 
 if __name__ == "__main__":
     while True:
@@ -20,15 +24,11 @@ if __name__ == "__main__":
 
         # Send the data
         try:
-            response = requests.put(
-                "http://127.0.0.1:8000/api/update",
-                json=data.model_dump(),
-                timeout=5
-            )
+            response = api.update_values(data)
+            response.raise_for_status()
 
             print(data.model_dump())
-
-            response.raise_for_status()
+            
         except Exception as e:
             print(e)
         
