@@ -38,7 +38,7 @@ function connect() {
         console.log("Socket is closed. Reconnect will be attempted in 1 second. ", e.reason);
 
         if (has_connected) {
-            set_ws_status("Reonnecting...");
+            set_ws_status("Reconnecting...");
         }
         else {
             set_ws_status("Connecting...");
