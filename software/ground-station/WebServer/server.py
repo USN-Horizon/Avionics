@@ -1,10 +1,11 @@
 from fastapi import FastAPI
-from fastapi.responses import FileResponse
-from fastapi.websockets import WebSocket, WebSocketDisconnect, WebSocketState
+from fastapi.responses import RedirectResponse
+from fastapi.websockets import WebSocket, WebSocketDisconnect
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 
-from data import SystemData
+from src.common import WEBSERVER_HOST, WEBSERVER_PORT
+from src.data import SystemData
 
 current_data: SystemData = SystemData()
 
@@ -44,7 +45,9 @@ app.mount(
 # Define the route to the main page, everything else SHOULD be handled by the mounting to static
 @app.get("/")
 async def home():
-    return FileResponse(STATIC_DIR / "index.html")
+    # Redirect to the index.html file
+    url = "http://" + WEBSERVER_HOST + ":" + WEBSERVER_PORT + "/static/index.html"
+    return RedirectResponse(url=url)
 
 # Recieves updates (put) to values on the server
 # TODO: This should only really happen from the same machine (so no one can send false data, on purpose or not)

@@ -4,16 +4,14 @@ This will later be replaced with a script that reads radio, decodes the messages
 Another script using the same API could also be used for testing, fyi :3
 """
 
-import requests
 import random
 import time
-import requests
 
-from data import SystemData
-from webserver_api import WebServerAPI
-import common
+from src.data import SystemData
+from src.webserver_api import WebServerAPI
+from src.common import WEBSERVER_HOST, WEBSERVER_PORT
 
-api = WebServerAPI(common.WEBSERVER_HOST, common.WEBSERVER_PORT)
+api = WebServerAPI(WEBSERVER_HOST, WEBSERVER_PORT)
 
 if __name__ == "__main__":
     while True:
