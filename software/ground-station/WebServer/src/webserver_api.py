@@ -1,8 +1,6 @@
 import requests
 
-from data import SystemData
-
-
+from src.data import SystemData
 
 class WebServerAPI:
     def __init__(self, host: str, port: str):
