@@ -1,8 +1,10 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import RedirectResponse
 from fastapi.websockets import WebSocket, WebSocketDisconnect
 from fastapi.staticfiles import StaticFiles
+
 from pathlib import Path
+from pydantic import BaseModel
 
 from src.common import WEBSERVER_HOST, WEBSERVER_PORT
 from src.data import SystemData
@@ -52,7 +54,7 @@ async def home():
 # Recieves updates (put) to values on the server
 # TODO: This should only really happen from the same machine (so no one can send false data, on purpose or not)
 # Find a way to detect this and ignore
-@app.put("/api/update")
+@app.put("/api/data")
 async def update_data(data: SystemData):
     global connections
 
@@ -64,6 +66,30 @@ async def update_data(data: SystemData):
     # Send updated values to webpage via websocket connection(s)
     await ws_manager.sendToAll(current_data.model_dump(exclude_unset=True))
 
+class QueryRequest(BaseModel):
+    fields: list[str]
+
+# Use POST .../api/data with a body specifying which elements you want to retrieve
+@app.post("/api/data")
+async def update_data(request: QueryRequest):
+    result = {}
+    unknown_fields = []
+
+    data_fields = current_data.model_dump()
+
+    for field in request.fields:
+        if field in data_fields:
+            result[field] = data_fields[field]
+        else:
+            unknown_fields.append(field)
+
+    if len(unknown_fields) > 0:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Unknown field(s): {unknown_fields}"
+        )
+
+    return result
 
 # Create the websocket endpoint
 @app.websocket("/ws")
