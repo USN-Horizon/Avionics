@@ -1,0 +1,174 @@
+:root {
+    /*Colors gathered from the USN Horizon Brand Guideline*/
+    --color-usnh-black: #000000;
+    --color-usnh-white: #ffffff;
+    --color-usnh-primary: #21295f;
+    --color-usnh-secondary: #ff6202;
+
+    --color-tab: var(--color-usnh-secondary);
+    --color-tab-hover: #cf4f00;
+    --color-tab-active: #ffcc00;
+    --color-tab-active-hover: #cda400;
+
+    /*These colors look nice, but was hard to distinguish what tab was active*/
+    /*Keeping them here for potential later use*/
+    --color-tab-active-old: #cf4f00;
+    --color-tab-active_hover-old: #b14400;
+}
+
+html,
+body {
+    background-color: var(--color-usnh-white);
+    height: 100%;
+    margin: 0;
+}
+
+p {
+    margin: 0;
+}
+
+.dashboard {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+
+.topbar {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+
+    border: black;
+    border-style: solid;
+    border-width: thin;
+    
+    background-color: var(--color-usnh-primary);
+    color: var(--color-usnh-white);
+
+    padding: 20px;
+
+    .logo {
+        max-height: 64px;
+        max-width: 100%;
+        object-fit: contain;
+    }
+
+    .spacer_bar {
+        background-color: var(--color-usnh-white);
+        width: 4px;
+    }
+
+    .header {
+        margin: 0;
+        line-height: 64px;
+    }
+
+    .spacer {
+        flex: 1 0 auto;
+        background-color: transparent;
+    }
+
+    .connection-dots {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .connection-dot {
+        width: 15px;
+        height: 15px;
+        margin: 2px;
+
+        border-radius: 50%;
+        background-color: #222222;
+        flex: none;
+    }
+
+    .connection-dot.active {
+        background-color: lime;
+    }
+
+    .connection-dot.active.enable {
+        background-color: white;
+        width: 19px;
+        height: 19px;
+        margin: 0px;
+    }
+}
+
+.tabs {
+    display: flex;
+    flex-direction: row;
+    background-color: transparent;
+
+    .tab {
+        flex: 1 0 auto;
+        padding: 12px 20px;
+
+        border: black;
+        border-style: solid;
+        border-width: thin;
+
+        background: var(--color-tab);
+        
+        p {
+            text-align: center;
+            color: var(--color-usnh-black);
+            font-size: 28px;
+        }
+    }
+
+    .tab:hover {
+        background: var(--color-tab-hover);
+    }
+    .tab.active {
+        background: var(--color-tab-active);
+    }
+    .tab.active:hover {
+        background: var(--color-tab-active-hover);
+    }
+}
+
+.tab-content {
+    display: none;
+
+    flex: 1 1 auto;
+    background-color: white;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.bottombar {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+
+    flex: 0 1 30px;
+    background-color: var(--color-usnh-black);
+    color: var(--color-usnh-white);
+
+    line-height: 30px;
+    padding: 16px 20px;
+
+    .spacer-bar {
+        background-color: var(--color-usnh-white);
+        padding: 0;
+        width: 2px;
+    }
+}
+
+.status-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.status-dot {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: green;
+    flex: none;
+}

@@ -3,14 +3,131 @@
     <head>
         <title>Horizon Ground Station</title>
         <link rel="icon" type="image/x-icon" href="graphics/favicon.png">
+        <link rel="stylesheet" href="style/style.css">
     </head>
     <body>
-        <script src="scripts/main.js"></script>
+        <div class="dashboard">
+            <div class="topbar">
+                <img class="logo" src="graphics/logo_primary_resize.png">
+                <div class="spacer_bar"></div>
+                <h1 class="header">Ground Station Interface</h1>
+                <div class="spacer"></div>
 
-        <h1>USN Horizon Ground Station</h1>
-        <p id="altitude"></p>
-        <p id="battery"></p>
-        <p id="ws_status"></p>
-        <a href="about.html">About</a>
+                <img class="icon" src="graphics/Icons/rocket.png">
+
+                <!--TODO: Actually update the connection bars-->
+                <!--TODO: Distinguish between Avionics and Payload?-->
+                <!--TODO: Tooltip should reflect its current status. For example: "Wifi Com: OK" or "WiFi Com: Not Present"-->
+                <div id="rocket-connection" class="connection-dots" title="Rocket Com: Not Present">
+                    <span class="connection-dot" data-pos="0"></span>
+                    <span class="connection-dot" data-pos="1"></span>
+                    <span class="connection-dot" data-pos="2"></span>
+                </div>
+
+                <img class="icon" src="graphics/Icons/gs.png">
+
+                <div id="wifi-connection" class="connection-dots enable" title="WiFi Com: OK">
+                    <span class="connection-dot" data-pos="2"></span>
+                    <span class="connection-dot" data-pos="1"></span>
+                    <span class="connection-dot" data-pos="0"></span>
+                </div>
+
+                <img class="icon" src="graphics/Icons/wifi.png">
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" data-tab="dashboard">
+                    <p>Dashboard</p>
+                </button>
+
+                <button class="tab" data-tab="avionics">
+                    <p>Avionics</p>
+                </button>
+
+                <button class="tab" data-tab="payload">
+                    <p>Payload</p>
+                </button>
+                
+                <button class="tab" data-tab="logs">
+                    <p>Logs</p>
+                </button>
+
+                <button class="tab" data-tab="network">
+                    <p>Network</p>
+                </button>
+
+                <button class="tab" data-tab="other">
+                    <p>Other</p>
+                </button>
+                
+            </div>
+            
+            <div id="dashboard" class="tab-content active">
+                <p>This is the Dashboard tab!</p>
+                <p>Display general information about the rocket and flight here!</p>
+                <br>
+                <p id="altitude"></p>
+                <p id="battery"></p>
+            </div>
+
+            <div id="avionics" class="tab-content">
+                <p>This is the Avionics tab!</p>
+                <p>Display Avionics spesific data here!</p>
+            </div>
+
+            <div id="payload" class="tab-content">
+                <p>This is the Payload tab!</p>
+                <p>Display Payload spesific data here!</p>
+            </div>
+
+            <div id="logs" class="tab-content">
+                <p>This is the Logs tab!</p>
+                <p>Here we can see errors, warnings, logs and messages!</p>
+                <p>Maybe even see logged data and download it?</p>
+            </div>
+
+            <div id="network" class="tab-content">
+                <p>This is the Network tab!</p>
+                <p>See network connection status here!</p>
+            </div>
+
+            <div id="other" class="tab-content">
+                <p>This is the Other tab!</p>
+                <p>A whole bunch of other stuff!</p>
+            </div>
+
+            <div class="bottombar">
+                <!--TODO: Make the tooltip show its count. For example: "6 errors" or "No errors"-->
+                <!--TODO: Clicking a status label switches tabs to where the errors are shown-->
+                <div class="status-label" title="Errors">
+                    <img src="graphics/Icons/error_circ.png">
+                    <p id="error_count_text">0</p>
+                </div>
+
+                <div class="spacer-bar"></div>
+
+                <div class="status-label" title="Warnings">
+                    <img src="graphics/Icons/warning_circ.png">
+                    <p id="warning_count_text">0</p>
+                </div>
+
+                <div class="spacer-bar"></div>
+
+                <div class="status-label" title="Messages">
+                    <img src="graphics/Icons/msg.png">
+                    <p id="msg_count_text">0</p>
+                </div>
+
+                <div class="spacer-bar"></div>
+
+                <div class="status-label">
+                    WebSocket:
+                    <span id="ws_status_dot" class="status-dot" style="background-color: red;"></span>
+                    <p id="ws_status_text">N/A</p>
+                </div>
+            </div>
+        </div>
+        
+        <script src="scripts/main.js"></script>
     </body>
 </html>
