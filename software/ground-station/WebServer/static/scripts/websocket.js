@@ -27,19 +27,17 @@ export function connect() {
         else {
             document.getElementById('battery').textContent = "Battery: N/A";
         }
-
-        console.log("Socket recieved: ", data);
     }
 
     websocket.onopen = () => {
-        console.log("Socket is connected");
+        console.log("WebSocket: Socket is connected");
         set_ws_status("Active", "lime");
         has_connected = true;
         connection_attempts = 0;
     }
 
     websocket.onclose = (e) => {
-        console.log("Socket is closed. Reconnect will be attempted in 1 second. ", e.reason);
+        console.log("WebSocket: Socket is closed. Reconnect will be attempted in 1 second. ", e.reason);
 
         if (has_connected) {
             set_ws_status("Reconnect (" + connection_attempts + ")", "red");
@@ -52,7 +50,7 @@ export function connect() {
     }
 
     websocket.onerror = (err) => {
-        console.error('Socket encountered error: ', err.message, 'Closing socket');
+        console.error("WebSocket: Socket encountered error: ", err.message, "Closing socket");
         websocket.close();
     };
 }

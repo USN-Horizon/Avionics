@@ -1,20 +1,81 @@
+const tabs = document.querySelectorAll(".tab");
+const contents = document.querySelectorAll(".tab-content");
+
+function DeactivateAllTabs() {
+     tabs.forEach(tab => {
+        // Remove active from all tabs and content tabs
+        tabs.forEach(t => t.classList.remove("active"));
+        contents.forEach(c => c.classList.remove("active"));
+    });
+}
+
+function FindFirst(array, predicate) {
+  for (var i = 0; i < array.length; i++) {
+    if (predicate(array[i])) return array[i];
+  }
+}
+
+export function SwitchToTabName(tab_name) {
+    const tab = FindFirst(tabs, (tab) => { return tab.dataset.tab == tab_name; });
+    if (!tab) {
+        console.log("Tried switching to tab of name " + tab_name + ", but no tab with that name was found.");
+        return;
+    }
+
+    DeactivateAllTabs();
+
+    tab.classList.add("active");
+
+    const target = document.getElementById(tab_name);
+
+    // Activate this content tab
+    target.classList.add("active");
+}
+
+export function SwitchToTabIndex(tab_index) {
+    const tab = FindFirst(tabs, (tab) => { return tab.dataset.index == tab_index; });
+    if (!tab) {
+        console.log("Tried switching to tab of index " + tab_index + ", but no tab with that index was found.");
+        return;
+    }
+
+    DeactivateAllTabs();
+
+    tab.classList.add("active");
+
+    const target = document.getElementById(tab.dataset.tab);
+
+    // Activate this content tab
+    target.classList.add("active");
+}
+
 export function SetupTabs() {
-    const tabs = document.querySelectorAll(".tab");
-    const contents = document.querySelectorAll(".tab-content");
-
     tabs.forEach(tab => {
-        tab.addEventListener("click", () => {
-            // Remove active from all tabs and content tabs
-            tabs.forEach(t => t.classList.remove("active"));
-            contents.forEach(c => c.classList.remove("active"));
+        tab.addEventListener("click", () => { SwitchToTabName(tab.dataset.tab); });
+    });
 
-            // Activate this tab
-            tab.classList.add("active");
+    document.addEventListener("keyup", (event) => {
+        const re = /Digit[1-9]/;
 
-            const target = document.getElementById(tab.dataset.tab);
+        if (event.code.match(re)) {
+            SwitchToTabIndex(event.code.at(event.code.length - 1));
+            return;
+        }
+        else {
+            var direction;
+            if (event.code == "ArrowLeft") {
+                direction = -1;
+            }
+            else if (event.code == "ArrowRight") {
+                direction = 1;
+            }
+            else {
+                return;
+            }
 
-            // Activate this content tab
-            target.classList.add("active");
-        });
+            const active_tab = FindFirst(tabs, (tab) => { return tab.classList.contains("active") });
+            const next_index = parseInt(active_tab.dataset.index) + direction;
+            SwitchToTabIndex(next_index);
+        }
     });
 }

@@ -8,7 +8,7 @@
     --color-tab: var(--color-usnh-secondary);
     --color-tab-hover: #cf4f00;
     --color-tab-active: #ffcc00;
-    --color-tab-active-hover: #cda400;
+    --color-tab-active-hover: #ffcc00;
 
     /*These colors look nice, but was hard to distinguish what tab was active*/
     /*Keeping them here for potential later use*/
