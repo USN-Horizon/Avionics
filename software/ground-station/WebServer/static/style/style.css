@@ -120,6 +120,7 @@ p {
 
     .tab:hover {
         background: var(--color-tab-hover);
+        cursor: default;
     }
     .tab.active {
         background: var(--color-tab-active);
@@ -163,6 +164,11 @@ p {
     display: inline-flex;
     align-items: center;
     gap: 6px;
+}
+
+.status-label:hover {
+    background-color: #555555;
+    cursor: default;
 }
 
 .status-dot {

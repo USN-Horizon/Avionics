@@ -99,28 +99,28 @@
             <div class="bottombar">
                 <!--TODO: Make the tooltip show its count. For example: "6 errors" or "No errors"-->
                 <!--TODO: Clicking a status label switches tabs to where the errors are shown-->
-                <div class="status-label" title="Errors">
+                <div id="bot-error-status-label" class="status-label" title="Errors">
                     <img src="graphics/Icons/error_circ.png">
                     <p id="error_count_text">0</p>
                 </div>
 
                 <div class="spacer-bar"></div>
 
-                <div class="status-label" title="Warnings">
+                <div id="bot-warning-status-label" class="status-label" title="Warnings">
                     <img src="graphics/Icons/warning_circ.png">
                     <p id="warning_count_text">0</p>
                 </div>
 
                 <div class="spacer-bar"></div>
 
-                <div class="status-label" title="Messages">
+                <div id="bot-msg-status-label" class="status-label" title="Messages">
                     <img src="graphics/Icons/msg.png">
                     <p id="msg_count_text">0</p>
                 </div>
 
                 <div class="spacer-bar"></div>
 
-                <div class="status-label">
+                <div id="bot-websocket-status-label" class="status-label">
                     WebSocket:
                     <span id="ws_status_dot" class="status-dot" style="background-color: red;"></span>
                     <p id="ws_status_text">N/A</p>
