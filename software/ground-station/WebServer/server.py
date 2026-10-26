@@ -6,6 +6,8 @@ from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 from pydantic import BaseModel
 
+import json
+
 from src.common import WEBSERVER_HOST, WEBSERVER_PORT
 from src.data import SystemData
 
@@ -23,12 +25,15 @@ class ConnectionManager:
     def disconnect(self, websocket: WebSocket):
         self.active_connections.remove(websocket)
 
+    async def sendToOne(self, ws: WebSocket, data):
+        try:
+            await ws.send_json(data)
+        except WebSocketDisconnect:
+            self.disconnect(ws)
+
     async def sendToAll(self, data):
         for connection in self.active_connections:
-            try:
-                await connection.send_json(data)
-            except WebSocketDisconnect:
-                self.disconnect(connection)
+            await self.sendToOne(connection, data)
 
 ws_manager = ConnectionManager()
 
@@ -56,8 +61,6 @@ async def home():
 # Find a way to detect this and ignore
 @app.put("/api/data")
 async def update_data(data: SystemData):
-    global connections
-
     if data.altitude:
         current_data.altitude = data.altitude
     if data.battery:
@@ -99,6 +102,12 @@ async def websocket_endpoint(websocket: WebSocket):
     while True:
         try:
             data = await websocket.receive_text()
-            await websocket.send_text(data)
+            try:
+                data_json = json.loads(data)
+                if data_json["message_type"] == "request_all":
+                    await ws_manager.sendToOne(websocket, current_data.model_dump())
+            except json.JSONDecodeError as e:
+                print(f"Failed to parse JSON from websocket.\n\t- Data received: \"{data}\"\n\t- Exception: \"{str(e)}\"")
+                await websocket.send_text(f"Error: {str(e)}")
         except Exception:
             break

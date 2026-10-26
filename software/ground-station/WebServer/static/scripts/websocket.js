@@ -8,7 +8,7 @@ function set_ws_status(status, color) {
 
 export function connect() {
     var websocket = new WebSocket('ws://localhost:8000/ws');
-    connection_attempts++;  
+    connection_attempts++;
     
     websocket.onmessage = (event) => {
         const data = JSON.parse(event.data);
@@ -34,10 +34,13 @@ export function connect() {
         set_ws_status("Active", "lime");
         has_connected = true;
         connection_attempts = 0;
+
+        // This should promt the server to send everything
+        websocket.send('{"message_type": "request_all"}');
     }
 
     websocket.onclose = (e) => {
-        console.log("WebSocket: Socket is closed. Reconnect will be attempted in 1 second. ", e.reason);
+        console.log("WebSocket: Socket is closed. Reconnect will be attempted in 5 seconds. ", e.reason);
 
         if (has_connected) {
             set_ws_status("Reconnect (" + connection_attempts + ")", "red");
@@ -46,7 +49,9 @@ export function connect() {
             set_ws_status("Connect (" + connection_attempts + ")", "red");
         }
         
-        setTimeout(() => { connect(); }, 1000);
+        // Problem: After several connection attempts, this time increases to up to a minute! (wtf???)
+        // TODO: Fix this!
+        setTimeout(() => { connect(); }, 5000);
     }
 
     websocket.onerror = (err) => {
