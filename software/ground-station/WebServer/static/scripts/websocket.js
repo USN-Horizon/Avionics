@@ -21,7 +21,7 @@ export function connect() {
             }
 
             // Update all fields that refers to this value
-            const value_fields = document.querySelectorAll(".field_" + key);
+            const value_fields = document.querySelectorAll(".field-" + key);
             value_fields.forEach(field => {
                 field.textContent = value;
             });
