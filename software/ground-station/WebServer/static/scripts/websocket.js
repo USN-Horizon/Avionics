@@ -13,20 +13,19 @@ export function connect() {
     websocket.onmessage = (event) => {
         const data = JSON.parse(event.data);
 
-        // TODO: Find a cleaner way for this!
-        if (data.altitude) {
-            document.getElementById('altitude').textContent = "Altitude: " + data.altitude + "m";
-        }
-        else {
-            document.getElementById('altitude').textContent = "Altitude: N/A";
-        }
+        Object.keys(data).forEach(key => {
+            // Set the value, if null was passed, set it to N/A instead
+            let value = data[key];
+            if (value == null) {
+                value = "N/A";
+            }
 
-        if (data.battery) {
-            document.getElementById('battery').textContent = "Battery: " + data.battery + "%";
-        }
-        else {
-            document.getElementById('battery').textContent = "Battery: N/A";
-        }
+            // Update all fields that refers to this value
+            const value_fields = document.querySelectorAll(".field_" + key);
+            value_fields.forEach(field => {
+                field.textContent = value;
+            });
+        });
     }
 
     websocket.onopen = () => {
