@@ -46,9 +46,9 @@ p {
     color: var(--color-usnh-white);
 
     padding: 20px;
+    max-height: 48px;
 
     .logo {
-        max-height: 64px;
         max-width: 100%;
         object-fit: contain;
     }
@@ -60,7 +60,7 @@ p {
 
     .header {
         margin: 0;
-        line-height: 64px;
+        line-height: 48px;
     }
 
     .spacer {
@@ -75,8 +75,8 @@ p {
     }
 
     .connection-dot {
-        width: 15px;
-        height: 15px;
+        width: 12px;
+        height: 12px;
         margin: 2px;
 
         border-radius: 50%;
@@ -90,8 +90,8 @@ p {
 
     .connection-dot.active.enable {
         background-color: white;
-        width: 19px;
-        height: 19px;
+        width: 16px;
+        height: 16px;
         margin: 0px;
     }
 }
@@ -103,7 +103,7 @@ p {
 
     .tab {
         flex: 1 0 auto;
-        padding: 12px 20px;
+        padding: 4px 20px;
 
         border: black;
         border-style: solid;
