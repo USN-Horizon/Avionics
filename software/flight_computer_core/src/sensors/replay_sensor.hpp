@@ -13,9 +13,10 @@
 class ReplaySensor : public ISensor {
 public:
     // Takes the list of readings this sensor will return, in order.
-    ReplaySensor(std::vector<Reading> samples) {
-        samples_ = std::move(samples);
-    }
+    ReplaySensor(std::vector<Reading>&& samples) 
+        :
+        samples_(samples)
+    {}
 
     Reading read() override {
         if (next_ < samples_.size()) {
