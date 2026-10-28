@@ -17,7 +17,12 @@ if __name__ == "__main__":
     while True:
         # Generate some random data
         data = SystemData(
-            altitude=int(round(5000 * random.random(), 2))
+            altitude=float(round(5000 * random.random(), 2)),
+            position={
+                "x": float(round(1000 * random.random(), 2)),
+                "y": float(round(1000 * random.random(), 2)),
+                "z": float(round(1000 * random.random(), 2)),
+            }
         )
 
         # Send the data

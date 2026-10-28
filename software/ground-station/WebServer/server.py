@@ -61,13 +61,16 @@ async def home():
 # Find a way to detect this and ignore
 @app.put("/api/data")
 async def update_data(data: SystemData):
-    if data.altitude:
-        current_data.altitude = data.altitude
-    if data.battery:
-        current_data.battery = data.battery
+    global current_data
+    current_data = current_data.model_copy(
+        update=data.model_dump(
+            exclude_unset=True,
+            exclude_none=True
+        )
+    )
 
     # Send updated values to webpage via websocket connection(s)
-    await ws_manager.sendToAll(current_data.model_dump(exclude_unset=True))
+    await ws_manager.sendToAll(data.model_dump(exclude_unset=True))
 
 class QueryRequest(BaseModel):
     fields: list[str]

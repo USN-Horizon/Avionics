@@ -8,23 +8,28 @@ function set_ws_status(status, color) {
     document.getElementById('ws_status_text').textContent = status;
 }
 
+function UpdateFields(data, field_prefix) {
+    if (data == null || typeof(data) !== 'object') {
+        let value = data;
+        if (value == null) {
+            value = "N/A";
+        }
+        UpdateField(field_prefix, value);
+    }
+    else {
+        for (var prop in data) {
+            UpdateFields(data[prop], field_prefix + "_" + prop);
+        }
+    }
+}
+
 export function connect() {
     var websocket = new WebSocket('ws://localhost:8000/ws');
     connection_attempts++;
     
     websocket.onmessage = (event) => {
         const data = JSON.parse(event.data);
-
-        Object.keys(data).forEach(key => {
-            // Set the value, if null was passed, set it to N/A instead
-            let value = data[key];
-            if (value == null) {
-                value = "N/A";
-            }
-
-            // Update all fields that refers to this value
-            UpdateField(key, value);
-        });
+        UpdateFields(data, "field");
     }
 
     websocket.onopen = () => {
