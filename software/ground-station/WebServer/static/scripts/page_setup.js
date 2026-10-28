@@ -15,4 +15,7 @@ export function SetupPage() {
         document.getElementById("wifi-connection").classList.add("enable");
         UpdateField("network-status", "Online");
     }
+    else {
+        UpdateField("network-status", "Offline");
+    }
 }
