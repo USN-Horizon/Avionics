@@ -24,6 +24,7 @@ An example of a branch could be: *feature/sensor-interface*
 |test|Tests|
 |refactor|Restructuring and refactors|
 |docs|Documentation|
+|experiment|Experimental features or investigations|
 |task|General work / No fitting branch type|
 
 ## Workflow (Step by Step)
