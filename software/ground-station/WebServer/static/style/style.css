@@ -130,15 +130,20 @@ p {
     }
 }
 
-.tab-content {
-    display: none;
-
+.content-area {
     flex: 1 1 auto;
-    background-color: white;
-}
 
-.tab-content.active {
-    display: block;
+    .tab-content {
+        flex: 1 1 auto;
+
+        display: none;
+
+        background-color: white;
+    }
+
+    .tab-content.active {
+        display: block;
+    }
 }
 
 .bottombar {
