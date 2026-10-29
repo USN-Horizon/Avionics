@@ -1,4 +1,5 @@
 const std = @import("std");
+const Io = std.Io;
 const fatal = std.process.fatal;
 const builtin = @import("builtin");
 
@@ -23,12 +24,22 @@ pub fn main(init: std.process.Init) !void {
         var rbuf: [4096]u8 = undefined;
         var wbuf: [4096]u8 = undefined;
         var reader = smb.port.reader(io, &rbuf);
-        var writer = std.Io.File.stdout().writer(io, &wbuf);
+        var writer = Io.File.stdout().writer(io, &wbuf);
         while (true) {
             _ = reader.interface.stream(&writer.interface, .unlimited) catch |err| switch (err) {
                 error.EndOfStream => {
                     std.log.info("Connection closed", .{});
                     return;
+                },
+                error.ReadFailed => switch (reader.err.?) {
+                    error.Unexpected => {
+                        // returns INVALID_DEVICE_STATE when arduino is restarted..
+                        // and when usb is unplugged
+                        // maybe there is a comm setting to avoid this.. probably not
+                        std.log.info("Unexpected error, device most likely disconnected", .{});
+                        return;
+                    },
+                    else => |e| return e,
                 },
                 else => return err,
             };
@@ -44,8 +55,8 @@ pub fn main(init: std.process.Init) !void {
 }
 
 const SamBa = struct {
-    port: std.Io.File,
-    fn open(io: std.Io) !SamBa {
+    port: Io.File,
+    fn open(io: Io) !SamBa {
         return switch (builtin.target.os.tag) {
             .linux => .{ .port = try openLinuxPort(io) },
             .macos => .{ .port = try openMacPort(io) },
@@ -54,14 +65,14 @@ const SamBa = struct {
         };
     }
 
-    fn close(s: SamBa, io: std.Io) void {
+    fn close(s: SamBa, io: Io) void {
         s.file.close(io);
     }
 };
 
-fn openLinuxPort(io: std.Io) !std.Io.File {
+fn openLinuxPort(io: Io) !Io.File {
     const path = "/dev/ttyACM0";
-    const file = std.Io.Dir.openFileAbsolute(io, path, .{
+    const file = Io.Dir.openFileAbsolute(io, path, .{
         .mode = .read_write,
     }) catch |err| fatal("{t}: {s}", .{ err, path });
 
@@ -130,32 +141,124 @@ fn openLinuxPort(io: std.Io) !std.Io.File {
 
     return file;
 }
-
-fn openWindowsPort(io: std.Io) !std.Io.File {
-    // COM port enumeration:
-    // https://stackoverflow.com/a/1388977
-    var path = "\\\\.\\COMx\0";
-    const file = for (1..99) |n| {
-        const path_len = if (n < 10) 8 else 9;
-        switch (path_len) {
-            8 => path[7] = '0' + n,
-            9 => path[7..9].* = .{ '0' + (n / 10), '0' + (n % 10) },
-            else => comptime unreachable,
-        }
-        break std.Io.Dir.openFileAbsolute(io, path[0..path_len], .{
-            .mode = .read_write,
-        }) catch |err| switch (err) {
-            error.FileNotFound => {},  
-            else => fatal("{t}: {s}",.{err,path}),
-        });
-    } else fatal("No COM port found", .{});
-
-    std.info.log("Connecting to {s}", .{path});
-    return error.RestUnimplemented;
+// is probably similar to linux (but maybe using system libraries)
+fn openMacPort(io: Io) !Io.File {
+    _ = io;
+    @compileError("mac not supported yet");
 }
 
-// is probably similar to linux (but maybe using system libraries)
-fn openMacPort(io: std.Io) !std.Io.File {
-    _ = io;
-    @CompileError("mac not supported yet");
+const win = std.os.windows;
+
+// https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-dcb
+const DCB = extern struct {
+    length: win.DWORD = @sizeOf(DCB),
+    baud_rate: win.DWORD = 0,
+    f: packed struct(win.DWORD) {
+        binary: bool = false,
+        parity: bool = false,
+        outx_cts_flow: bool = false,
+        outx_dsr_flow: bool = false,
+        dtr_control: u2 = 0,
+        dsr_sensitivity: bool = false,
+        tx_continue_on_x_off: bool = false,
+        outx: bool = false,
+        inx: bool = false,
+        error_char: bool = false,
+        null: bool = false,
+        rts_control: u2 = 0,
+        abort_on_error: bool = false,
+        unused: u17 = 0,
+    } = .{},
+    reserved1: win.WORD = 0,
+    xon_lim: win.WORD = 0,
+    xoff_lim: win.WORD = 0,
+    byte_size: win.BYTE = 0,
+    parity: enum(win.BYTE) {
+        no = 0,
+        odd = 1,
+        even = 2,
+        mark = 3,
+        space = 4,
+    } = .no,
+    stop_bits: enum(win.BYTE) {
+        one = 0,
+        one_5s = 1,
+        two = 2,
+    } = .one,
+    xon_char: c_char = 0,
+    xoff_char: c_char = 0,
+    error_char: c_char = 0,
+    eof_char: c_char = 0,
+    evt_char: c_char = 0,
+    reserved2: win.WORD = 0,
+};
+
+// https://learn.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-commtimeouts
+const CommTimeouts = extern struct {
+    read_interval_timeout: win.DWORD,
+    read_total_timeout_multiplier: win.DWORD,
+    read_total_timeout_constant: win.DWORD,
+    write_total_timeout_multiplier: win.DWORD,
+    write_total_timeout_constant: win.DWORD,
+};
+extern "kernel32" fn GetCommState(handle: Io.File.Handle, dcb: *DCB) callconv(.winapi) win.BOOL;
+extern "kernel32" fn SetCommState(handle: Io.File.Handle, dcb: *DCB) callconv(.winapi) win.BOOL;
+extern "kernel32" fn SetCommTimeouts(handle: Io.File.Handle, ct: *const CommTimeouts) callconv(.winapi) win.BOOL;
+
+const com_path_template = "\\\\.\\COM\x00\x00";
+
+fn openWindowsPort(io: Io) !Io.File {
+    // COM port enumeration:
+    // https://stackoverflow.com/a/1388977
+    var path = com_path_template.*;
+    const file = for (1..99) |n| {
+        const n_c: u8 = @intCast(n);
+        const path_len: usize = if (n < 10) 8 else 9;
+        switch (path_len) {
+            8 => path[7] = '0' + n_c,
+            9 => path[7..9].* = .{ '0' + (n_c / 10), '0' + (n_c % 10) },
+            else => unreachable,
+        }
+        break Io.Dir.openFileAbsolute(io, path[0..path_len], .{
+            .mode = .read_write,
+        }) catch |err| switch (err) {
+            error.FileNotFound => continue,
+            error.AccessDenied => {
+                std.log.info("Skipping {s}, since access was denied", .{path});
+                continue;
+            },
+            else => fatal("{t}: {s}", .{ err, path }),
+        };
+    } else fatal("No COM port available", .{});
+
+    std.log.info("Connecting to {s}", .{path});
+
+    var dcb: DCB = .{};
+    if (GetCommState(file.handle, &dcb) == .FALSE)
+        fatal("{t}", .{win.GetLastError()});
+
+    dcb.baud_rate = baud_rate;
+    dcb.byte_size = 8;
+    dcb.parity = .no;
+    dcb.stop_bits = .one;
+
+    if (SetCommState(file.handle, &dcb) == .FALSE)
+        fatal("{t}", .{win.GetLastError()});
+
+    std.debug.print("{}", .{dcb});
+
+    // i think this stuff is the issue maybe..
+    // waits until 4096 bytes are available before reading
+    const ct: CommTimeouts = .{
+        .read_interval_timeout = std.math.maxInt(win.DWORD),
+        .read_total_timeout_multiplier = 0,
+        .read_total_timeout_constant = 0,
+        .write_total_timeout_multiplier = 0,
+        .write_total_timeout_constant = 0,
+    };
+
+    if (SetCommTimeouts(file.handle, &ct) == .FALSE)
+        fatal("{t}", .{win.GetLastError()});
+
+    return file;
 }
