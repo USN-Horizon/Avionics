@@ -16,3 +16,10 @@ To set it to DFU mode, hold down the BOOT0 button while it resets
 On windows, the DFU drivers might not be installed.
 You can use winget to install zadig and run zadig to install the driver.
 
+## Vendored FreeRTOS
+The files under /FreeRTOS have been extracted from FreeRTOS 202604.01 (LTS)
+
+### FreeRTOS notes
+The FreeRTOS cortex-M4F port must be built
+using hardware floating point support
+https://docs.freertos.org/Documentation/02-Kernel/03-Supported-devices/04-Demos/ST-Microelectronics/FreeRTOS-for-STM32F4xx-Cortex-M4F-IAR

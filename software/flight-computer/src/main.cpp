@@ -1,5 +1,5 @@
+#include <FreeRTOS.h>
 #include <Arduino.h>
-#include <STM32FreeRTOS.h>
 
 SemaphoreHandle_t serialMutex;
 
@@ -29,4 +29,4 @@ void setup() {
   vTaskStartScheduler();              // never returns
 }
 
-void loop() {}
+void loop() {} // never reached
