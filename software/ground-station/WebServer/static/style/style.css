@@ -33,6 +33,17 @@ p {
   height: 100%;
 }
 
+.spacer {
+    background-color: var(--color-usnh-white);
+    width: 4px;
+}
+
+.spacer-bar {
+        background-color: var(--color-usnh-white);
+        padding: 0;
+        width: 2px;
+    }
+
 .topbar {
     display: flex;
     flex-direction: row;
@@ -51,11 +62,6 @@ p {
     .logo {
         max-width: 100%;
         object-fit: contain;
-    }
-
-    .spacer_bar {
-        background-color: var(--color-usnh-white);
-        width: 4px;
     }
 
     .header {
@@ -157,12 +163,6 @@ p {
 
     line-height: 30px;
     padding: 16px 20px;
-
-    .spacer-bar {
-        background-color: var(--color-usnh-white);
-        padding: 0;
-        width: 2px;
-    }
 }
 
 .status-label {
