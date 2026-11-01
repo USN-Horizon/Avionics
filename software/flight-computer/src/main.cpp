@@ -1,7 +1,9 @@
+#include <FreeRTOS.h>
+#include <task.h>
+#include <semphr.h>
 #include <Arduino.h>
-#include <STM32FreeRTOS.h>
 
-SemaphoreHandle_t serialMutex;
+SemaphoreHandle_t serial_mutex;
 
 void blinkTask(void *) {
   pinMode(PC13, OUTPUT);              // onboard LED, active low
@@ -14,19 +16,25 @@ void blinkTask(void *) {
 void printTask(void *) {
   uint32_t n = 0;
   for (;;) {
-    xSemaphoreTake(serialMutex, portMAX_DELAY);
+    xSemaphoreTake(serial_mutex, portMAX_DELAY);
     Serial.printf("tick %lu\n", n++);
-    xSemaphoreGive(serialMutex);
+    xSemaphoreGive(serial_mutex);
     vTaskDelay(pdMS_TO_TICKS(10));
   }
 }
 
 void setup() {
   Serial.begin(115200);
-  serialMutex = xSemaphoreCreateMutex();
-  xTaskCreate(blinkTask, "blink", 256, nullptr, 1, nullptr);
-  xTaskCreate(printTask, "print", 512, nullptr, 1, nullptr);
-  vTaskStartScheduler();              // never returns
+
+  static StaticSemaphore_t mutex_state;
+  static StaticTask_t blink_task_buf;
+  static StaticTask_t print_task_buf;
+
+  serial_mutex = xSemaphoreCreateMutexStatic(&mutex_state);
+  xTaskCreateStatic(blinkTask, "blink", 256, nullptr, 1, nullptr, &blink_task_buf);
+  xTaskCreateStatic(printTask, "print", 512, nullptr, 1, nullptr, &print_task_buf);
+
+  vTaskStartScheduler();  // never returns
 }
 
-void loop() {}
+void loop() {} // never reached
