@@ -91,6 +91,8 @@ p {
 
     .tab {
         flex: 1 0 auto;
+        
+        width: 0px;
 
         padding: 2px 20px;
 
@@ -101,6 +103,7 @@ p {
         background: var(--color-tab);
         
         p {
+            flex: 1 0 auto;
             text-align: center;
             color: var(--color-usnh-black);
             font-size: 28px;
@@ -120,14 +123,42 @@ p {
 }
 
 #content-area {
-    flex: 1 1 auto;
+    display: flex;
+    flex: 1 0 auto;
+
+    min-height: 800px;
 
     .tab-content {
         display: none;
     }
 
     .tab-content.active {
-        display: block;
+        display: flex;
+        flex: 1 0 auto;
+        height: 100%;
+    }
+
+    .vertical-segment {
+        display: flex;
+        flex-direction: column;
+
+        flex: 1 0 auto;
+        width: 0px;
+
+        outline: thin solid black;
+
+        box-sizing: border-box;
+    }
+
+    .horizontal-segment {
+        display: flex;
+        
+        flex: 1 0 auto;
+        height: 0px;
+
+        outline: thin solid black;
+        
+        box-sizing: border-box;
     }
 }
 
@@ -161,3 +192,15 @@ p {
     }
 }
 
+#arming {
+    flex: 1 0 auto;
+    background-color: #ff0000;
+    margin: 15%;
+
+    color: white;
+    font-size: 60px;
+}
+
+#arming:hover {
+    background-color: #aa0000;
+}

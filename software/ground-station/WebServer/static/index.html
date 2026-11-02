@@ -47,65 +47,83 @@
                 <p>Payload</p>
             </button>
             
-            <button class="tab" data-tab="logs" data-index="4">
+            <button class="tab" data-tab="commands" data-index="4">
+                <p>Commands</p>
+            </button>
+
+            <button class="tab" data-tab="logs" data-index="5">
                 <p>Logs</p>
             </button>
 
-            <button class="tab" data-tab="network" data-index="5">
+            <button class="tab" data-tab="network" data-index="6">
                 <p>Network</p>
             </button>
-
-            <button class="tab" data-tab="other" data-index="6">
-                <p>Other</p>
-            </button>
-            
         </div>
         
         <div id="content-area">
             <div id="dashboard" class="tab-content active">
-                <p>This is the Dashboard tab!</p>
-                <p>Display general information about the rocket and flight here!</p>
-                <br>
-                <p>Altitude: <span class="field_altitude"></span>m</p>
-                <p>Battery: <span class="field_battery"></span>%</p>
-                <p>
-                    Position: <span class="field_position_x"></span>, <span class="field_position_y"></span>, <span class="field_position_z"></span> (m)
-                </p>
-                <p>
-                    Velocity: <span class="field_velocity_x"></span>, <span class="field_velocity_y"></span>, <span class="field_velocity_z"></span> (m/s)
-                </p>
-                <p>
-                    Acceleration: <span class="field_acceleration_x"></span>, <span class="field_acceleration_y"></span>, <span class="field_acceleration_z"></span> (m/s^2)
-                </p>
-                <p>State: <span class="field_state"></span></p>
+                <div class="vertical-segment">
+                    <p>This is the Dashboard tab!</p>
+                    <p>Display general information about the rocket and flight here!</p>
+                    <br>
+                    <p>Altitude: <span class="field_altitude"></span>m</p>
+                    <p>Battery: <span class="field_battery"></span>%</p>
+                    <p>
+                        Position: <span class="field_position_x"></span>, <span class="field_position_y"></span>, <span class="field_position_z"></span> (m)
+                    </p>
+                    <p>
+                        Velocity: <span class="field_velocity_x"></span>, <span class="field_velocity_y"></span>, <span class="field_velocity_z"></span> (m/s)
+                    </p>
+                    <p>
+                        Acceleration: <span class="field_acceleration_x"></span>, <span class="field_acceleration_y"></span>, <span class="field_acceleration_z"></span> (m/s^2)
+                    </p>
+                    <p>State: <span class="field_state"></span></p>
+                </div>
+                <div class="vertical-segment">
+                    <div class="horizontal-segment"></div>
+                    <div class="horizontal-segment"></div>
+                    <div class="horizontal-segment"></div>
+                </div>
+                <div class="vertical-segment"></div>
             </div>
 
             <div id="avionics" class="tab-content">
-                <p>This is the Avionics tab!</p>
-                <p>Display Avionics spesific data here!</p>
+                <div class="vertical-segment">
+                    <p>This is the Avionics tab!</p>
+                    <p>Display Avionics spesific data here!</p>
+                </div>
             </div>
 
             <div id="payload" class="tab-content">
-                <p>This is the Payload tab!</p>
-                <p>Display Payload spesific data here!</p>
+                <div class="vertical-segment">
+                    <p>This is the Payload tab!</p>
+                    <p>Display Payload spesific data here!</p>
+                </div>
             </div>
 
             <div id="logs" class="tab-content">
-                <p>This is the Logs tab!</p>
-                <p>Here we can see errors, warnings, logs and messages!</p>
-                <p>Maybe even see logged data and download it?</p>
+                <div class="vertical-segment">
+                    <p>This is the Logs tab!</p>
+                    <p>Here we can see errors, warnings, logs and messages!</p>
+                    <p>Maybe even see logged data and download it?</p>
+                </div>
             </div>
 
             <div id="network" class="tab-content">
-                <p>This is the Network tab!</p>
-                <p>See network connection status here!</p>
-                <br>
-                <p>Internet status: <span class="network-status"></span></p>
+                <div class="vertical-segment">
+                    <p>This is the Network tab!</p>
+                    <p>See network connection status here!</p>
+                    <br>
+                    <p>Internet status: <span class="network-status"></span></p>
+                </div>
             </div>
 
-            <div id="other" class="tab-content">
-                <p>This is the Other tab!</p>
-                <p>A whole bunch of other stuff!</p>
+            <div id="commands" class="tab-content">
+                <div class="vertical-segment">
+                    <button id="arming">
+                        <p>ARM ROCKET</p>
+                    </button>
+                </div>
             </div>
         </div>
 
