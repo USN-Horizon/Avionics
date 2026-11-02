@@ -9,44 +9,36 @@
     --color-tab-hover: #cf4f00;
     --color-tab-active: #ffcc00;
     --color-tab-active-hover: #ffcc00;
-
-    /*These colors look nice, but was hard to distinguish what tab was active*/
-    /*Keeping them here for potential later use*/
-    --color-tab-active-old: #cf4f00;
-    --color-tab-active_hover-old: #b14400;
 }
 
 html,
 body {
-    background-color: var(--color-usnh-white);
+    display: flex;
+    flex-flow: column;
+
     height: 100%;
     margin: 0;
+
+    background-color: var(--color-usnh-white);
 }
 
 p {
     margin: 0;
 }
 
-.dashboard {
-  display: flex;
-  flex-flow: column;
-  height: 100%;
-}
-
 .spacer {
-    background-color: var(--color-usnh-white);
-    width: 4px;
+    flex: 1 0 auto;
+    background-color: transparent;
 }
 
 .spacer-bar {
-        background-color: var(--color-usnh-white);
-        padding: 0;
-        width: 2px;
-    }
+    background-color: var(--color-usnh-white);
+    padding: 0;
+    width: 2px;
+}
 
-.topbar {
-    display: flex;
-    flex-direction: row;
+#topbar {
+    display: inline-flex;
     gap: 20px;
 
     border: black;
@@ -56,22 +48,12 @@ p {
     background-color: var(--color-usnh-primary);
     color: var(--color-usnh-white);
 
-    padding: 20px;
-    max-height: 48px;
+    padding: 6px 20px;
+    height: 64px;
+    box-sizing: border-box;
 
-    .logo {
-        max-width: 100%;
-        object-fit: contain;
-    }
-
-    .header {
+    #header {
         margin: 0;
-        line-height: 48px;
-    }
-
-    .spacer {
-        flex: 1 0 auto;
-        background-color: transparent;
     }
 
     .connection-dots {
@@ -87,7 +69,6 @@ p {
 
         border-radius: 50%;
         background-color: #222222;
-        flex: none;
     }
 
     .connection-dot.active {
@@ -102,14 +83,16 @@ p {
     }
 }
 
-.tabs {
-    display: flex;
-    flex-direction: row;
+#tabs {
+    display: inline-flex;
     background-color: transparent;
+
+    height: 48px;
 
     .tab {
         flex: 1 0 auto;
-        padding: 4px 20px;
+
+        padding: 2px 20px;
 
         border: black;
         border-style: solid;
@@ -136,15 +119,11 @@ p {
     }
 }
 
-.content-area {
+#content-area {
     flex: 1 1 auto;
 
     .tab-content {
-        flex: 1 1 auto;
-
         display: none;
-
-        background-color: white;
     }
 
     .tab-content.active {
@@ -152,34 +131,33 @@ p {
     }
 }
 
-.bottombar {
+#bottombar {
     display: flex;
-    flex-direction: row;
+
     gap: 16px;
 
-    flex: 0 1 30px;
     background-color: var(--color-usnh-black);
     color: var(--color-usnh-white);
 
-    line-height: 30px;
-    padding: 16px 20px;
+    padding: 8px 20px;
+    height: 48px;
+    box-sizing: border-box;
+
+    .status-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .status-label:hover {
+        background-color: #555555;
+        cursor: default;
+    }
+
+    .status-dot {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+    }
 }
 
-.status-label {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.status-label:hover {
-    background-color: #555555;
-    cursor: default;
-}
-
-.status-dot {
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background-color: green;
-    flex: none;
-}
