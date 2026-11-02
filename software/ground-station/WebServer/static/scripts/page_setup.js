@@ -1,21 +1,35 @@
 import { UpdateField } from "./fields.js";
 
-export function SetupPage() {
-    window.addEventListener('online', () => {
-        document.getElementById("wifi-connection").classList.add("enable");
-        UpdateField("network-status", "Online");
-    });
+function OnOnline() {
+    const connection_dots = document.getElementById("wifi-connection");
+    connection_dots.classList.add("enable");
+    connection_dots.title = "Internet Connection Status: OK";
 
-    window.addEventListener('offline', () => {
-        document.getElementById("wifi-connection").classList.remove("enable");
-        UpdateField("network-status", "Offline");
-    });
+    document.getElementById("wifi-icon").getElementsByClassName("status")[0].classList.add("enable");
+    
+    UpdateField("network-status", "Online");
+}
+
+function OnOffline() {
+    const connection_dots = document.getElementById("wifi-connection");
+    connection_dots.classList.remove("enable");
+    connection_dots.title = "Internet Connection Status: Not Present";
+
+    document.getElementById("wifi-icon").getElementsByClassName("status")[0].classList.remove("enable");
+
+    UpdateField("network-status", "Offline");
+}
+
+export function SetupPage() {
+    window.addEventListener('online', () => { OnOnline(); });
+    window.addEventListener('offline', () => { OnOffline(); });
 
     if (navigator.onLine) {
-        document.getElementById("wifi-connection").classList.add("enable");
-        UpdateField("network-status", "Online");
+        OnOnline();
     }
     else {
-        UpdateField("network-status", "Offline");
+        OnOffline();
     }
+
+    document.getElementById("groundstation-icon").getElementsByClassName("status")[0].classList.add("enable");
 }

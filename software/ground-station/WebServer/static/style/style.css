@@ -56,6 +56,34 @@ p {
         margin: 0;
     }
 
+    .icon-element {
+        display: flex;
+        flex-direction: column;
+
+        width: 50px;
+
+        align-items: center;
+
+        .icon {
+            height: 44px;
+        }
+
+        .status {
+            margin-top: 2px;
+            height: 4px;
+
+            border-radius: 2px;
+
+            width: 100%;
+
+            background-color: gray;
+        }
+
+        .status.enable {
+            background-color: lime;
+        }
+    }
+
     .connection-dots {
         display: inline-flex;
         align-items: center;

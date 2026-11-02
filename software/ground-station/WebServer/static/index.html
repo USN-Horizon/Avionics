@@ -12,26 +12,39 @@
             <h1 id="header">Ground Station Interface</h1>
             <div class="spacer"></div>
 
-            <img class="icon" src="graphics/Icons/rocket.png">
+            <div id="payload-icon" class="icon-element" title="Payload">
+                <img class="icon" src="graphics/Icons/payload.png">
+                <div class="status"></div>
+            </div>
 
-            <!--TODO: Actually update the connection bars-->
-            <!--TODO: Distinguish between Avionics and Payload?-->
-            <!--TODO: Tooltip should reflect its current status. For example: "Wifi Com: OK" or "WiFi Com: Not Present"-->
-            <div id="rocket-connection" class="connection-dots" title="Rocket Com: Not Present">
+            <div class="spacer-bar"></div>
+
+            <div id="avionics-icon" class="icon-element" title="Flight Computer (Avionics)">
+                <img class="icon" src="graphics/Icons/avionics.png">
+                <div class="status"></div>
+            </div>
+
+            <div id="rocket-connection" class="connection-dots">
                 <span class="connection-dot" data-pos="0"></span>
                 <span class="connection-dot" data-pos="1"></span>
                 <span class="connection-dot" data-pos="2"></span>
             </div>
 
-            <img class="icon" src="graphics/Icons/gs.png">
+            <div id="groundstation-icon" class="icon-element" title="Ground Station">
+                <img class="icon" src="graphics/Icons/gs.png">
+                <div class="status"></div>
+            </div>
 
-            <div id="wifi-connection" class="connection-dots" title="WiFi Com: OK">
+            <div id="wifi-connection" class="connection-dots">
                 <span class="connection-dot" data-pos="2"></span>
                 <span class="connection-dot" data-pos="1"></span>
                 <span class="connection-dot" data-pos="0"></span>
             </div>
 
-            <img class="icon" src="graphics/Icons/wifi.png">
+            <div id="wifi-icon" class="icon-element" title="Internet">
+                <img class="icon" src="graphics/Icons/wifi.png">
+                <div class="status"></div>
+            </div>
         </div>
 
         <div id="tabs">
