@@ -63,28 +63,49 @@
         <div id="content-area">
             <div id="dashboard" class="tab-content active">
                 <div class="vertical-segment">
-                    <p>This is the Dashboard tab!</p>
-                    <p>Display general information about the rocket and flight here!</p>
-                    <br>
-                    <p>Altitude: <span class="field_altitude"></span>m</p>
-                    <p>Battery: <span class="field_battery"></span>%</p>
-                    <p>
-                        Position: <span class="field_position_x"></span>, <span class="field_position_y"></span>, <span class="field_position_z"></span> (m)
-                    </p>
-                    <p>
-                        Velocity: <span class="field_velocity_x"></span>, <span class="field_velocity_y"></span>, <span class="field_velocity_z"></span> (m/s)
-                    </p>
-                    <p>
-                        Acceleration: <span class="field_acceleration_x"></span>, <span class="field_acceleration_y"></span>, <span class="field_acceleration_z"></span> (m/s^2)
-                    </p>
-                    <p>State: <span class="field_state"></span></p>
+                    <div class="data-segment">
+                        <div class="graph-view">
+                            <p>Graph goes here lmao</p>
+                        </div>
+                        <div class="data-view">
+                            <p class="title">Altitude</p>
+                            <p class="value"><span class="field_altitude"></span></p></p>
+                            <p class="subtext">(m) - Current</p>
+                        </div>
+                    </div>
+
+                    <div class="data-segment">
+                        <div class="graph-view">
+                            <p>Graph goes here lmao</p>
+                        </div>
+                        <div class="data-view">
+                            <p class="title">Velocity</p>
+                            <p class="value"><span class="field_velocity_z"></span></p></p>
+                            <p class="subtext">(m/s) - Current</p>
+                        </div>
+                    </div>
+
+                    <div class="data-segment">
+                        <div class="graph-view">
+                            <p>Graph goes here lmao</p>
+                            <img src="https://media.tenor.com/9WBtYYSQoAwAAAAj/maxwell-spinning.gif" style="height: 50%;">
+                        </div>
+                        <div class="data-view">
+                            <p class="title">Acceleration</p>
+                            <p class="value"><span class="field_acceleration_z"></span></p></p>
+                            <p class="subtext">(m/s^2) - Current</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="vertical-segment">
-                    <div class="horizontal-segment"></div>
-                    <div class="horizontal-segment"></div>
-                    <div class="horizontal-segment"></div>
+                    <p>State: <span class="field_state"></span></p>
+                    <p>Battery: <span class="field_battery"></span>%</p>
                 </div>
-                <div class="vertical-segment"></div>
+                <div class="vertical-segment">
+                    <p>Latitude: <span class="field_gnss_latitude"></span></p>
+                    <p>Longitude: <span class="field_gnss_longitude"></span></p>
+                    <p>Altitude: <span class="field_gnss_altitude"></span></p>
+                </div>
             </div>
 
             <div id="avionics" class="tab-content">

@@ -76,9 +76,9 @@ if __name__ == "__main__":
             state=dp["state"],
         
             gnss={
-                "lon":dp["gnss_lon"],
-                "lat":dp["gnss_lat"],
-                "alt":dp["gnss_alt"]
+                "longitude":dp["gnss_lon"],
+                "latitude":dp["gnss_lat"],
+                "altitude":dp["gnss_alt"]
             },
             battery=dp["bat"],
             temperature=dp["temp"],
