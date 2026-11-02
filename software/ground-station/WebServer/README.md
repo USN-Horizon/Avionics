@@ -44,7 +44,7 @@ The server has an API that allows for updating of its stored values. During norm
 
 However, the webserver is not dependent on hardware, and may be updated manually or programatically via HTTP PUT-requests. Inside ```/test``` is some test scripts that may be ran locally, without access to the physical hardware.
 
-The URL endpoint for put requests is http://localhost:8000/api/update
+The URL endpoint for put requests is http://localhost:8000/api/data
 
 ### Docs
 
