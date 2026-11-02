@@ -44,7 +44,7 @@ Every folder has its own README explaining what belongs there.
 | Area | Tools |
 | --- | --- |
 | PCB design and Wiring | Altium Designer and E3.Series|
-| Flight firmware | C++, RTOS still being evaluated (Zephyr, FreeRTOS or bare metal) |
+| Flight firmware | C++ on FreeRTOS |
 | Ground station | To be decided |
 
 ## Contributing
