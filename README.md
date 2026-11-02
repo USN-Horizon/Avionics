@@ -33,7 +33,7 @@ Avionics/
 │   ├── flight-computer/    Flight firmware
 │   ├── ground-station/     Telemetry receiver, logging and live view
 │   └── simulation/         Hardware in the loop and flight simulation
-├── docs/                   Presentations, onboarding, design reviews and notes
+├── docs/                   Avionics wiki: how everything works and how to use it
 └── archived/               Earlier projects (2024 to 2026), kept for reference
 ```
 
@@ -53,4 +53,4 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md) before your first pull request. All work
 
 ## Links
 
-[Horizon wiki](https://wiki.usnhorizon.no/) · [usnhorizon.no](https://usnhorizon.no/) · [avionics@usnhorizon.no](mailto:avionics@usnhorizon.no)
+[Avionics wiki](docs/README.md) · [Horizon wiki](https://wiki.usnhorizon.no/) · [usnhorizon.no](https://usnhorizon.no/) · [avionics@usnhorizon.no](mailto:avionics@usnhorizon.no)
