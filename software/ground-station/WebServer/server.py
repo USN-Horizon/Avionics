@@ -8,8 +8,7 @@ from pydantic import BaseModel
 
 import json
 
-from src.common import WEBSERVER_HOST, WEBSERVER_PORT
-from src.data import SystemData
+from common import SystemData, WEBSERVER_HOST, WEBSERVER_PORT
 
 current_data: SystemData = SystemData()
 

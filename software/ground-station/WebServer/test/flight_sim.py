@@ -1,9 +1,7 @@
 import time
 import csv
 
-from src.data import SystemData
-from src.webserver_api import WebServerAPI
-from src.common import WEBSERVER_HOST, WEBSERVER_PORT
+from common import SystemData, WebServerAPI, WEBSERVER_HOST, WEBSERVER_PORT
 
 api = WebServerAPI(WEBSERVER_HOST, WEBSERVER_PORT)
 
