@@ -84,6 +84,10 @@ p {
         }
     }
 
+    .icon-element:hover {
+        background-color: rgba(255, 255, 255, 0.25);
+    }
+
     .connection-dots {
         display: inline-flex;
         align-items: center;
@@ -209,7 +213,7 @@ p {
     }
 
     .status-label:hover {
-        background-color: #555555;
+        background-color: rgba(255, 255, 255, 0.25);;
         cursor: default;
     }
 
