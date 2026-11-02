@@ -34,7 +34,7 @@ The avionics team and the avionics lead are responsible for keeping the wiki up 
 ## System description
 The avionics is everything electronic that flies in the rocket, and everything that follows it from the ground. For EuRoC 2027 that is our own SRAD flight computer with a CATS Vega as an independent backup, a ground station, the telemetry link between them, and a hardware-in-the-loop (HIL) simulator that tests the flight software against simulated flights before it ever flies.
 
-PCBs are designed in Altium Designer and wiring in E3.series. The flight firmware is written in C++, and the RTOS is still being evaluated. See the [repository README](../README.md) for how the repository is organized.
+PCBs are designed in Altium Designer and wiring in E3.series. The flight firmware is written in C++ and runs on FreeRTOS. See the [repository README](../README.md) for how the repository is organized.
 
 ### Wiring diagram
 #Missing
