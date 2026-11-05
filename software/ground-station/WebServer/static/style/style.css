@@ -52,7 +52,7 @@ p {
     height: 64px;
     box-sizing: border-box;
 
-    #header {
+    h1 {
         margin: 0;
     }
 
@@ -250,8 +250,6 @@ p {
     border-width: 2px;
 
     gap: 4px;
-    
-    background-color: gray;
 
     .graph-view {
         flex: 1 0 auto;
@@ -259,8 +257,6 @@ p {
         border: black;
         border-style: solid;
         border-width: thin;
-
-        background-color: white;
     }
 
     .data-view {
@@ -281,8 +277,6 @@ p {
         border: black;
         border-style: solid;
         border-width: thin;
-
-        background-color: white;
 
         .title {
             display: flex;
