@@ -11,6 +11,22 @@
     --color-tab-active-hover: #ffcc00;
 }
 
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat/static/Montserrat-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat/static/Montserrat-Bold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
 html,
 body {
     display: flex;
@@ -20,6 +36,8 @@ body {
     margin: 0;
 
     background-color: var(--color-usnh-white);
+
+    font-family: "Montserrat", sans-serif;
 }
 
 p {
@@ -52,6 +70,8 @@ p {
     height: 64px;
     box-sizing: border-box;
 
+    line-height: 50px;
+
     h1 {
         margin: 0;
     }
@@ -62,7 +82,7 @@ p {
 
         width: 50px;
 
-        align-items: center;
+        text-align: center;
 
         .icon {
             height: 44px;
