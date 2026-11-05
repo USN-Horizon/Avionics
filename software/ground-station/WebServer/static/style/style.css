@@ -37,11 +37,12 @@ body {
 
     background-color: var(--color-usnh-white);
 
-    font-family: "Montserrat", sans-serif;
+    font-family: "Montserrat";
 }
 
 p {
     margin: 0;
+    font-family: "Montserrat";
 }
 
 .spacer {
@@ -159,6 +160,7 @@ p {
             text-align: center;
             color: var(--color-usnh-black);
             font-size: 28px;
+            font-weight: bold;
         }
     }
 
