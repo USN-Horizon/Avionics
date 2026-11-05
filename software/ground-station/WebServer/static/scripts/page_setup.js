@@ -20,9 +20,16 @@ function OnOffline() {
     UpdateField("network-status", "Offline");
 }
 
+function BeforeUnload(event) {
+    // Would be nice to set our own message inside the pop-up, but this is disabled on modern browsers for security reasons :(
+    event.preventDefault(); // This makes the pop-up show up
+    event.returnValue = ""; // This is just vibing for compatibility reasons
+}
+
 export function SetupPage() {
-    window.addEventListener('online', () => { OnOnline(); });
-    window.addEventListener('offline', () => { OnOffline(); });
+    window.addEventListener('beforeunload', BeforeUnload);
+    window.addEventListener('online', OnOnline);
+    window.addEventListener('offline', OnOffline);
 
     if (navigator.onLine) {
         OnOnline();
