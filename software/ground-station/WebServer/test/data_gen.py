@@ -4,6 +4,9 @@ This will later be replaced with a script that reads radio, decodes the messages
 Another script using the same API could also be used for testing, fyi :3
 """
 
+import sys
+sys.path.append("../")
+
 import random
 import time
 
