@@ -1,6 +1,6 @@
 import requests
 
-from common import SystemData
+from src.data import SystemData
 
 class WebServerAPI:
     def __init__(self, host: str, port: str):
@@ -16,19 +16,8 @@ class WebServerAPI:
 
         return response
     
-    def update_values(self, data: SystemData) -> requests.Response:
+    def update_server_data(self, data: SystemData) -> requests.Response:
         return self._send_JSON(data, True)
         
     def set_server_data(self, data: SystemData) -> requests.Response:
-        return self._send_JSON(data)
-
-    def get_values(self, fields: list[str]) -> requests.Response:
-        response = requests.post(
-            "http://" + self.host + ":" + self.port + "/api/data",
-            json={
-                "fields": fields
-            },
-            timeout=5
-        )
-
-        return response        
+        return self._send_JSON(data)     

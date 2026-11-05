@@ -29,7 +29,21 @@ export function connect() {
     
     websocket.onmessage = (event) => {
         const data = JSON.parse(event.data);
-        UpdateFields(data, "field");
+
+        if (!Object.hasOwn(data, "msg_type")) {
+            console.log("WebSocket: Received malformed message from the webserver");
+            return;
+        }
+
+        if (data.msg_type == "update_data" || data.msg_type == "all") {
+            UpdateFields(data.data, "field");
+        }
+        else if (data.msg_type == "ws_msg_error") {
+            console.log("WebSockets: Received an error from webserver:\n" + data.data);
+        }
+        else {
+            console.log("WebSocket: Unknown message type received from the webserver");
+        }
     }
 
     websocket.onopen = () => {
@@ -39,7 +53,7 @@ export function connect() {
         connection_attempts = 0;
 
         // This should promt the server to send everything
-        websocket.send('{"message_type": "request_all"}');
+        websocket.send('{"msg_type": "request_all"}');
     }
 
     websocket.onclose = (e) => {

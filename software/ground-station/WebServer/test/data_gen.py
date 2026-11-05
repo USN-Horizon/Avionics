@@ -10,7 +10,9 @@ sys.path.append("../")
 import random
 import time
 
-from common import SystemData, WebServerAPI, WEBSERVER_HOST, WEBSERVER_PORT
+from src.data import SystemData
+from src.webserver_api import WebServerAPI
+from src.common import WEBSERVER_HOST, WEBSERVER_PORT
 
 api = WebServerAPI(WEBSERVER_HOST, WEBSERVER_PORT)
 
@@ -28,7 +30,7 @@ if __name__ == "__main__":
 
         # Send the data
         try:
-            response = api.update_values(data)
+            response = api.update_server_data(data)
             response.raise_for_status()
 
             print(data.model_dump())

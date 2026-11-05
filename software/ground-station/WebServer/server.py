@@ -1,42 +1,21 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import RedirectResponse
-from fastapi.websockets import WebSocket, WebSocketDisconnect
+from fastapi.websockets import WebSocket
 from fastapi.staticfiles import StaticFiles
 
 from pathlib import Path
-from pydantic import BaseModel
 
 import json
 
-from common import SystemData, WEBSERVER_HOST, WEBSERVER_PORT
+from src.data import SystemData
+from src.common import WEBSERVER_HOST, WEBSERVER_PORT
+from src.websocket import ConnectionManager, create_ws_response
 
-current_data: SystemData = SystemData()
-
-# Adapted from: https://fastapi.tiangolo.com/advanced/websockets/#handling-disconnections-and-multiple-clients
-class ConnectionManager:
-    def __init__(self):
-        self.active_connections: list[WebSocket] = []
-
-    async def connect(self, websocket: WebSocket):
-        await websocket.accept()
-        self.active_connections.append(websocket)
-
-    def disconnect(self, websocket: WebSocket):
-        self.active_connections.remove(websocket)
-
-    async def sendToOne(self, ws: WebSocket, data):
-        try:
-            await ws.send_json(data)
-        except WebSocketDisconnect:
-            self.disconnect(ws)
-
-    async def sendToAll(self, data):
-        for connection in self.active_connections:
-            await self.sendToOne(connection, data)
 
 ws_manager = ConnectionManager()
-
+current_data: SystemData = SystemData()
 app = FastAPI()
+
 
 # Tell FastAPI to serve files in the static folder
 # Files will be found on for example http://localhost:8000/static/index.html
@@ -55,12 +34,16 @@ async def home():
     url = "http://" + WEBSERVER_HOST + ":" + WEBSERVER_PORT + "/static/index.html"
     return RedirectResponse(url=url)
 
-# Recieves updates (put) to values on the server
-# TODO: This should only really happen from the same machine (so no one can send false data, on purpose or not)
-# Find a way to detect this and ignore
+# Recieves updates from the radio handler script
 @app.put("/api/data")
-async def update_data(data: SystemData):
+async def update_data(request: Request, data: SystemData):
     global current_data
+
+    # Ignore updates from other clients. Only the local machine the server is running on should be able to update these values
+    if not (request.client.host == "127.0.0.1" or request.client.host == "localhost"):
+        raise HTTPException(status_code=401, detail="Updating server data can only happen locally")
+
+    # Copy received data into locally stored data, excluding values that are not given and not set
     current_data = current_data.model_copy(
         update=data.model_dump(
             exclude_unset=True,
@@ -69,32 +52,8 @@ async def update_data(data: SystemData):
     )
 
     # Send updated values to webpage via websocket connection(s)
-    await ws_manager.sendToAll(data.model_dump(exclude_unset=True))
-
-class QueryRequest(BaseModel):
-    fields: list[str]
-
-# Use POST .../api/data with a body specifying which elements you want to retrieve
-@app.post("/api/data")
-async def update_data(request: QueryRequest):
-    result = {}
-    unknown_fields = []
-
-    data_fields = current_data.model_dump()
-
-    for field in request.fields:
-        if field in data_fields:
-            result[field] = data_fields[field]
-        else:
-            unknown_fields.append(field)
-
-    if len(unknown_fields) > 0:
-        raise HTTPException(
-            status_code=404,
-            detail=f"Unknown field(s): {unknown_fields}"
-        )
-
-    return result
+    websocket_response = create_ws_response("update_data", data.model_dump(exclude_unset=True))
+    await ws_manager.sendToAll(websocket_response)
 
 # Create the websocket endpoint
 @app.websocket("/ws")
@@ -103,13 +62,22 @@ async def websocket_endpoint(websocket: WebSocket):
 
     while True:
         try:
+            # Receive data from the WebSocket
             data = await websocket.receive_text()
+
+            # Parse the data, take apropriate actions and send a response
             try:
                 data_json = json.loads(data)
-                if data_json["message_type"] == "request_all":
-                    await ws_manager.sendToOne(websocket, current_data.model_dump())
+                msg_type = data_json["msg_type"]
+                if msg_type == "request_all":
+                    response = create_ws_response("all", current_data.model_dump())
+                else:
+                    response = create_ws_response("ws_msg_error", { "message": f"Invalid message type \"{msg_type}\"" })
             except json.JSONDecodeError as e:
-                print(f"Failed to parse JSON from websocket.\n\t- Data received: \"{data}\"\n\t- Exception: \"{str(e)}\"")
-                await websocket.send_text(f"Error: {str(e)}")
+                response = create_ws_response("ws_msg_error", { "message": str(e) })
+
+            # Send it!
+            await ws_manager.sendToOne(websocket, response)
         except Exception:
+            # Something malicious is brewing, close the socket
             break
