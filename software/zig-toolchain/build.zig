@@ -27,15 +27,20 @@ pub fn build(b: *std.Build) void {
         .use_lld = true,
     });
 
-    // Need to specify entry point ourselves (maybe from linker script)
-    fc_exe.entry = .{ .symbol_name = "main" };
+    // entry is set in linker script
+    fc_exe.entry = .disabled;
+    fc_exe.setLinkerScript(b.path("linker/stm32f411ce.ld"));
+    // fc_exe.bundle_compiler_rt = false;
+    fc_exe.bundle_ubsan_rt = false;
+    fc_exe.link_gc_sections = true;
 
     // can only upload binary files, not elf
     const fc_bin = fc_exe.addObjCopy(.{ .format = .binary });
 
-    // TODO: remove? might be unnecessary, only useful if you want to inspect the binary file
-    // And consider setting 'running in emulator' as the default step?
-    const fc_bin_install = b.addInstallBinFile(fc_bin.getOutput(), "fc.bin");
+    const fc_bin_install = b.addInstallBinFile(
+        fc_bin.getOutput(),
+        b.graph.wip_configuration.stringSlice(fc_bin.basename.unwrap().?),
+    );
     b.getInstallStep().dependOn(&fc_bin_install.step);
     b.installArtifact(fc_exe);
 
