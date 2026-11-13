@@ -77,7 +77,7 @@ pub fn build(b: *std.Build) void {
     _ = dfu_exe;
     const upload_step = b.step("upload", "Upload flight computer using external dfu-utils");
     // copied from flight-computer platformio file (double check if this is correct)
-    const run_dfu = b.addSystemCommand(&.{ "dfu-util", "-s", "0x08000000:leave", "-D" });
+    const run_dfu = b.addSystemCommand(&.{ "dfu-util", "-s", "0x08000000:leave", "-a", "0", "-D" });
     run_dfu.addFileArg2(fc_bin.getOutput(), .{});
     upload_step.dependOn(&run_dfu.step);
 
