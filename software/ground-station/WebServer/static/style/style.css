@@ -274,17 +274,24 @@ p {
     gap: 4px;
 
     .graph-view {
-        flex: 1 0 auto;
+        position: relative; /* Required by Chart.js */
+        flex: 1 1 auto;
 
-        border: black;
-        border-style: solid;
-        border-width: thin;
+        min-width: 200px;
+        min-height: 0;
+
+        border: 1px solid black;
+
+        canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
     }
 
     .data-view {
         display: flex;
 
-        flex: 1 0 auto;
+        flex: 0 0 auto;
         flex-direction: column;
 
         padding: 0px 4px;
@@ -293,8 +300,7 @@ p {
         align-items: center;
         justify-content: space-between;
 
-        width: fit-content;
-        max-width: 225px;
+        width: 200px;
 
         border: black;
         border-style: solid;

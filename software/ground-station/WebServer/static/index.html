@@ -83,46 +83,56 @@
                 <div class="vertical-segment">
                     <div class="data-segment">
                         <div class="graph-view">
-                            <p>Graph goes here lmao</p>
+                            <canvas class="data-graph" data-data_name="altitude"></canvas>
                         </div>
                         <div class="data-view">
                             <p class="title">Altitude</p>
-                            <p class="value"><span class="field_altitude"></span></p></p>
+                            <p class="value"><span class="data-field" data-data_name="altitude"></span></p></p>
                             <p class="subtext">(m) - Current</p>
                         </div>
                     </div>
 
                     <div class="data-segment">
                         <div class="graph-view">
-                            <p>Graph goes here lmao</p>
+                            <canvas class="data-graph" data-data_name="velocity_z"></canvas>
                         </div>
                         <div class="data-view">
                             <p class="title">Velocity</p>
-                            <p class="value"><span class="field_velocity_z"></span></p></p>
+                            <p class="value"><span class="data-field" data-data_name="velocity_z"></span></p></p>
                             <p class="subtext">(m/s) - Current</p>
                         </div>
                     </div>
 
                     <div class="data-segment">
                         <div class="graph-view">
-                            <p>Graph goes here lmao</p>
-                            <img src="https://media.tenor.com/9WBtYYSQoAwAAAAj/maxwell-spinning.gif" style="height: 50%;">
+                            <canvas class="data-graph" data-data_name="acceleration_z"></canvas>
                         </div>
                         <div class="data-view">
                             <p class="title">Acceleration</p>
-                            <p class="value"><span class="field_acceleration_z"></span></p></p>
+                            <p class="value"><span class="data-field" data-data_name="acceleration_z"></span></p></p>
                             <p class="subtext">(m/s^2) - Current</p>
+                        </div>
+                    </div>
+
+                    <div class="data-segment">
+                        <div class="graph-view">
+                            <canvas class="data-graph" data-data_name="pressure"></canvas>
+                        </div>
+                        <div class="data-view">
+                            <p class="title">Pressure</p>
+                            <p class="value"><span class="data-field" data-data_name="pressure"></span></p></p>
+                            <p class="subtext">(mPa) - Current</p>
                         </div>
                     </div>
                 </div>
                 <div class="vertical-segment">
-                    <p>State: <span class="field_state"></span></p>
-                    <p>Battery: <span class="field_battery"></span>%</p>
+                    <p>State: <span class="data-field" data-data_name="state"></span></span></p>
+                    <p>Battery: <span class="data-field" data-data_name="battery"></span></span>%</p>
                 </div>
                 <div class="vertical-segment">
-                    <p>Latitude: <span class="field_gnss_latitude"></span></p>
-                    <p>Longitude: <span class="field_gnss_longitude"></span></p>
-                    <p>Altitude: <span class="field_gnss_altitude"></span></p>
+                    <p>Latitude: <span class="data-field" data-data_name="gnss_latitude"></span></span></p>
+                    <p>Longitude: <span class="data-field" data-data_name="gnss_longitude"></span></span></p>
+                    <p>Altitude: <span class="data-field" data-data_name="gnss_altitude"></span></span></span></p>
                 </div>
             </div>
 
@@ -197,6 +207,7 @@
             </div>
         </div>
         
+        <script src="scripts/chartjs/chart.umd.min.js"></script>
         <script type="module" src="scripts/main.js"></script>
     </body>
 </html>

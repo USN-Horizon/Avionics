@@ -1,4 +1,5 @@
 import { UpdateField } from "./fields.js";
+import { UpdateGraph } from "./charts.js";
 
 var has_connected = false;
 var connection_attempts = 0;
@@ -8,7 +9,7 @@ function set_ws_status(status, color) {
     document.getElementById('ws_status_text').textContent = status;
 }
 
-function UpdateFields(data, field_prefix) {
+function UpdateFields(data, field_prefix="") {
     if (data == null || typeof(data) !== 'object') {
         let value = data;
         if (value == null) {
@@ -18,7 +19,32 @@ function UpdateFields(data, field_prefix) {
     }
     else {
         for (var prop in data) {
-            UpdateFields(data[prop], field_prefix + "_" + prop);
+            if (field_prefix.length == 0) {
+                UpdateFields(data[prop], prop);
+            }
+            else {
+                UpdateFields(data[prop], field_prefix + "_" + prop);
+            }
+        }
+    }
+}
+
+function UpdateGraphs(data, graph_prefix="") {
+    if (data == null || typeof(data) !== 'object') {
+        let value = data;
+        if (value == null) {
+            value = 0;
+        }
+        UpdateGraph(graph_prefix, value);
+    }
+    else {
+        for (var prop in data) {
+            if (graph_prefix.length == 0) {
+                UpdateGraphs(data[prop], prop);
+            }
+            else {
+                UpdateGraphs(data[prop], graph_prefix + "_" + prop);
+            }
         }
     }
 }
@@ -36,7 +62,9 @@ export function connect() {
         }
 
         if (data.msg_type == "update_data" || data.msg_type == "all") {
-            UpdateFields(data.data, "field");
+            UpdateFields(data.data);
+            UpdateGraphs(data.data);
+            
         }
         else if (data.msg_type == "ws_msg_error") {
             console.log("WebSockets: Received an error from webserver:\n" + data.data);
