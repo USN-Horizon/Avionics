@@ -192,6 +192,23 @@ p {
         height: 100%;
     }
 
+    .panel {
+        width: 100%;
+        height: 100%;
+    }
+
+    h2 {
+        margin: 0;
+        justify-content: center;
+        text-align: center;
+        background-color: lightgray;
+
+        font-style: italic;
+        
+        outline: thin solid black;
+        box-sizing: border-box;
+    }
+
     .vertical-segment {
         display: flex;
         flex-direction: column;
@@ -246,24 +263,11 @@ p {
     }
 }
 
-#arming {
-    flex: 1 0 auto;
-    background-color: #ff0000;
-    margin: 15%;
-
-    color: white;
-    font-size: 60px;
-}
-
-#arming:hover {
-    background-color: #aa0000;
-}
-
 .data-segment {
     display: flex;
     
     flex: 1 1 auto;
-    max-height: 128px;
+    max-height: 124px;
     margin: 8px;
     padding: 4px;
 

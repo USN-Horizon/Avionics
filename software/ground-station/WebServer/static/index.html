@@ -81,58 +81,113 @@
         <div id="content-area">
             <div id="dashboard" class="tab-content active">
                 <div class="vertical-segment">
-                    <div class="data-segment">
-                        <div class="graph-view">
-                            <canvas class="data-graph" data-data_name="altitude"></canvas>
-                        </div>
-                        <div class="data-view">
-                            <p class="title">Altitude</p>
-                            <p class="value"><span class="data-field" data-data_name="altitude"></span></p></p>
-                            <p class="subtext">(m) - Current</p>
-                        </div>
-                    </div>
+                    <div class="panel">
+                        <h2>Flight Data</h2>
 
-                    <div class="data-segment">
-                        <div class="graph-view">
-                            <canvas class="data-graph" data-data_name="velocity_z"></canvas>
+                        <div class="data-segment">
+                            <div class="graph-view">
+                                <canvas class="data-graph" data-data_name="altitude"></canvas>
+                            </div>
+                            <div class="data-view">
+                                <p class="title">Altitude</p>
+                                <p class="value"><span class="data-field" data-data_name="altitude"></span></p></p>
+                                <p class="subtext">(m) - Current</p>
+                            </div>
                         </div>
-                        <div class="data-view">
-                            <p class="title">Velocity</p>
-                            <p class="value"><span class="data-field" data-data_name="velocity_z"></span></p></p>
-                            <p class="subtext">(m/s) - Current</p>
-                        </div>
-                    </div>
 
-                    <div class="data-segment">
-                        <div class="graph-view">
-                            <canvas class="data-graph" data-data_name="acceleration_z"></canvas>
+                        <div class="data-segment">
+                            <div class="graph-view">
+                                <canvas class="data-graph" data-data_name="velocity_z"></canvas>
+                            </div>
+                            <div class="data-view">
+                                <p class="title">Velocity</p>
+                                <p class="value"><span class="data-field" data-data_name="velocity_z"></span></p></p>
+                                <p class="subtext">(m/s) - Current</p>
+                            </div>
                         </div>
-                        <div class="data-view">
-                            <p class="title">Acceleration</p>
-                            <p class="value"><span class="data-field" data-data_name="acceleration_z"></span></p></p>
-                            <p class="subtext">(m/s^2) - Current</p>
-                        </div>
-                    </div>
 
-                    <div class="data-segment">
-                        <div class="graph-view">
-                            <canvas class="data-graph" data-data_name="pressure"></canvas>
+                        <div class="data-segment">
+                            <div class="graph-view">
+                                <canvas class="data-graph" data-data_name="acceleration_z"></canvas>
+                            </div>
+                            <div class="data-view">
+                                <p class="title">Acceleration</p>
+                                <p class="value"><span class="data-field" data-data_name="acceleration_z"></span></p></p>
+                                <p class="subtext">(m/s^2) - Current</p>
+                            </div>
                         </div>
-                        <div class="data-view">
-                            <p class="title">Pressure</p>
-                            <p class="value"><span class="data-field" data-data_name="pressure"></span></p></p>
-                            <p class="subtext">(mPa) - Current</p>
+
+                        <div class="data-segment">
+                            <div class="graph-view">
+                                <canvas class="data-graph" data-data_name="pressure"></canvas>
+                            </div>
+                            <div class="data-view">
+                                <p class="title">Pressure</p>
+                                <p class="value"><span class="data-field" data-data_name="pressure"></span></p></p>
+                                <p class="subtext">(mPa) - Current</p>
+                            </div>
+                        </div>
+                        <div class="data-segment">
+                            <div class="graph-view">
+                                <canvas class="data-graph" data-data_name="attitude"></canvas>
+                            </div>
+                            <div class="data-view">
+                                <p class="title">Attitude</p>
+                                <p class="value"><span class="data-field" data-data_name="attitude"></span></p></p>
+                                <p class="subtext">(deg) - Current</p>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="vertical-segment">
-                    <p>State: <span class="data-field" data-data_name="state"></span></span></p>
-                    <p>Battery: <span class="data-field" data-data_name="battery"></span></span>%</p>
+                    <div class="horizontal-segment">
+                        <div class="vertical-segment">
+                            <div class="panel">
+                                <h2>Avionics Status</h2>
+                                <p>Status: </p>
+                                <p>Time since last message: </p>
+                                <p>Battery: <span class="data-field" data-data_name="battery"></span></span>%</p>
+                                <p>Temperature: °C</p>
+                            </div>
+                        </div>
+                        <div class="vertical-segment">
+                            <div class="panel">
+                                <h2>Payload Status</h2>
+                                <p>Status: </p>
+                                <p>Time since last message: </p>
+                                <p>Battery: %</p>
+                                <p>Temperature: °C</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="horizontal-segment">
+                        <div class="panel">
+                            <h2>Flight State</h2>
+                            <p>Current State: <span class="data-field" data-data_name="state"></span></span></p>
+                        </div>
+                    </div>
+                    <div class="horizontal-segment">
+                        <div class="panel">
+                            <h2>Errors and Warnings</h2>
+                            <p>List of errors and warnings</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="vertical-segment">
-                    <p>Latitude: <span class="data-field" data-data_name="gnss_latitude"></span></span></p>
-                    <p>Longitude: <span class="data-field" data-data_name="gnss_longitude"></span></span></p>
-                    <p>Altitude: <span class="data-field" data-data_name="gnss_altitude"></span></span></span></p>
+                    <div class="horizontal-segment">
+                        <div class="panel">
+                            <h2>Map</h2>
+                            <p>Latitude: <span class="data-field" data-data_name="gnss_latitude"></span></span></p>
+                            <p>Longitude: <span class="data-field" data-data_name="gnss_longitude"></span></span></p>
+                            <p>Altitude: <span class="data-field" data-data_name="gnss_altitude"></span></span></span></p>
+                        </div>
+                    </div>
+                    <div class="horizontal-segment">
+                        <div class="panel">
+                            <h2>Video Feed (Payload)</h2>
+                            <p>(Beautiful video here)</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -168,11 +223,6 @@
             </div>
 
             <div id="commands" class="tab-content">
-                <div class="vertical-segment">
-                    <button id="arming">
-                        <p>ARM ROCKET</p>
-                    </button>
-                </div>
             </div>
         </div>
 
