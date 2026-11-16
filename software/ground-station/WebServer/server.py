@@ -6,10 +6,12 @@ from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 
 import json
+from time import gmtime, strftime
+import asyncio
 
 from src.data import SystemData
 from src.common import WEBSERVER_HOST, WEBSERVER_PORT
-from src.websocket import ConnectionManager, create_ws_response
+from src.websocket import ConnectionManager, create_ws_message
 
 
 ws_manager = ConnectionManager()
@@ -45,6 +47,7 @@ async def update_data(request: Request, data: SystemData):
 
     # Copy received data into locally stored data, excluding values that are not given and not set
     current_data = current_data.model_copy(
+        deep=True,
         update=data.model_dump(
             exclude_unset=True,
             exclude_none=True
@@ -52,8 +55,8 @@ async def update_data(request: Request, data: SystemData):
     )
 
     # Send updated values to webpage via websocket connection(s)
-    websocket_response = create_ws_response("update_data", data.model_dump(exclude_unset=True))
-    await ws_manager.sendToAll(websocket_response)
+    websocket_message = create_ws_message("update_data", data.model_dump(exclude_unset=True))
+    await ws_manager.sendToAll(websocket_message)
 
 # Create the websocket endpoint
 @app.websocket("/ws")
@@ -69,15 +72,37 @@ async def websocket_endpoint(websocket: WebSocket):
             try:
                 data_json = json.loads(data)
                 msg_type = data_json["msg_type"]
-                if msg_type == "request_all":
-                    response = create_ws_response("all", current_data.model_dump())
+                if msg_type == "request_init":
+                    response = create_ws_message("init_data", {
+                        "fields": current_data.model_dump(),
+                        "graphs": {
+                            "labels": {},
+                            "data": {}
+                        }
+                    })
                 else:
-                    response = create_ws_response("ws_msg_error", { "message": f"Invalid message type \"{msg_type}\"" })
+                    response = create_ws_message("ws_msg_error", { "message": f"Invalid message type \"{msg_type}\"" })
             except json.JSONDecodeError as e:
-                response = create_ws_response("ws_msg_error", { "message": str(e) })
+                response = create_ws_message("ws_msg_error", { "message": str(e) })
 
             # Send it!
             await ws_manager.sendToOne(websocket, response)
         except Exception:
             # Something malicious is brewing, close the socket
             break
+
+async def update_graph_data():
+    while True:
+        await asyncio.sleep(1)
+
+        timestamp = strftime("%H:%M:%S", gmtime())
+        message = create_ws_message("update_graphs", {
+            "timestamp": timestamp,
+            "data": current_data.model_dump(warnings="none")
+        });
+
+        await ws_manager.sendToAll(message)
+
+@app.on_event('startup')
+async def app_startup():
+    asyncio.create_task(update_graph_data())

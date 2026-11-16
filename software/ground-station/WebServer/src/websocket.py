@@ -22,5 +22,5 @@ class ConnectionManager:
         for connection in self.active_connections:
             await self.sendToOne(connection, data)
 
-def create_ws_response(msg_type: str, data: dict):
+def create_ws_message(msg_type: str, data: dict):
     return { "msg_type": msg_type, "data": data }

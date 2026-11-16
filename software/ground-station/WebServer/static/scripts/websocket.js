@@ -29,21 +29,21 @@ function UpdateFields(data, field_prefix="") {
     }
 }
 
-function UpdateGraphs(data, graph_prefix="") {
+function UpdateGraphs(timestamp, data, graph_prefix="") {
     if (data == null || typeof(data) !== 'object') {
         let value = data;
         if (value == null) {
             value = 0;
         }
-        UpdateGraph(graph_prefix, value);
+        UpdateGraph(timestamp, value, graph_prefix);
     }
     else {
         for (var prop in data) {
             if (graph_prefix.length == 0) {
-                UpdateGraphs(data[prop], prop);
+                UpdateGraphs(timestamp, data[prop], prop);
             }
             else {
-                UpdateGraphs(data[prop], graph_prefix + "_" + prop);
+                UpdateGraphs(timestamp, data[prop], graph_prefix + "_" + prop);
             }
         }
     }
@@ -61,10 +61,14 @@ export function connect() {
             return;
         }
 
-        if (data.msg_type == "update_data" || data.msg_type == "all") {
+        if (data.msg_type == "init_data") {
+            UpdateFields(data.fields);
+        }
+        else if (data.msg_type == "update_data") {
             UpdateFields(data.data);
-            UpdateGraphs(data.data);
-            
+        }
+        else if (data.msg_type == "update_graphs") {
+            UpdateGraphs(data.data.timestamp, data.data.data);
         }
         else if (data.msg_type == "ws_msg_error") {
             console.log("WebSockets: Received an error from webserver:\n" + data.data);
@@ -81,7 +85,7 @@ export function connect() {
         connection_attempts = 0;
 
         // This should promt the server to send everything
-        websocket.send('{"msg_type": "request_all"}');
+        websocket.send('{"msg_type": "request_init"}');
     }
 
     websocket.onclose = (e) => {
