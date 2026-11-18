@@ -25,7 +25,10 @@ Instructions for windows and VScode:
 - install drivers to let windows read coms "https://www.silabs.com/software-and-tools/usb-to-uart-bridge-vcp-drivers?tab=downloads"
 
 
+How to initialize the boards:
+First we need to unlock the boards as they come locked from the factory. We need to use the stm32 programmer and boot it into under reset mode, we connect and move over to OB where we set the mode to AA (0).
 
+We use the platformio.ini ide integration with vscode to build, upload, monitor, clean the codebase and chip.
 
 Information about the board and chip/s:
 https://wiki.seeedstudio.com/LoRa_E5_mini/#applications-1
