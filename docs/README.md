@@ -290,9 +290,16 @@ The assembly, arming and launch checklists. EuRoC requires them to include how t
 | Concept review, internal | 12 Oct 2026 |
 | Concept review, external | 30 Oct 2026 |
 | Preliminary design review (PDR), internal | 16 Nov 2026 |
-| PDR, external | planned for 11 Jan 2027 |
+| PDR, external | 11 Jan 2027 |
+| Interim design review, external | 25 Jan 2027 |
+| Concept freeze | 1 Feb 2027 |
+| Interface freeze | 15 Feb 2027 |
+| Critical design review (CDR), external | 8 Mar 2027 |
+| Assembly review, internal | 22 Mar 2027 |
+| Production review, internal | 5 Apr 2027 |
+| Launch checklist done | 28 Jun 2027 |
 
-The later milestones (concept freeze, interface freeze and the critical design review) are in the Horizon plan on Teams. The slides and the review feedback are in Teams, see [Where things live](#where-things-live).
+The dates from the external PDR on are planned. They come from the Horizon plan on Teams (November 2026), and the [milestones](https://github.com/USN-Horizon/Avionics/milestones) on GitHub follow it. When the plan moves, update both. The slides and the review feedback are in Teams, see [Where things live](#where-things-live).
 
 ## Documentation
 ### Documentation standard
