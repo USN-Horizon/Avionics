@@ -19,7 +19,7 @@ The avionics team designs the electronics and software that fly inside the rocke
 | System | What it does |
 | --- | --- |
 | **Flight computer** | Our own SRAD flight computer. Reads the sensors, tracks the flight state, deploys recovery and sends telemetry. A CATS Vega flies alongside it as an independent backup with its own battery. |
-| **Ground station** | A self contained station in a hard case. Receives telemetry, logs every flight and shows live data to the team at the launch site. |
+| **Ground station** | A station in a hard case, with its radio on a tripod. Talks to the rocket over radio, logs every flight and serves live data to the team's laptops and phones at the launch site. |
 | **Simulation** | Runs the flight software against simulated flights, so the code is tested long before it flies. |
 
 ## Repository structure
@@ -33,6 +33,7 @@ Avionics/
 │   ├── flight-computer/    Flight firmware
 │   ├── ground-station/     Telemetry receiver, logging and live view
 │   └── simulation/         Hardware in the loop and flight simulation
+├── testing/                Test vehicles and test rigs, such as the Avionics Testing Rocket
 ├── docs/                   Avionics wiki: how everything works and how to use it
 └── archived/               Earlier projects (2024 to 2026), kept for reference
 ```
@@ -43,9 +44,10 @@ Every folder has its own README explaining what belongs there.
 
 | Area | Tools |
 | --- | --- |
-| PCB design and Wiring | Altium Designer and E3.Series|
-| Flight firmware | C++ on FreeRTOS |
-| Ground station | To be decided |
+| PCB design and wiring | Altium Designer and KiCad for PCBs, E3.series for wiring |
+| Flight computer | STM32H753, with an STM32WLE5 for the LoRa radio link |
+| Flight firmware | C++ on FreeRTOS, built with PlatformIO |
+| Ground station | Raspberry Pi 5 with a Python (FastAPI) web server and a browser interface in HTML, CSS and JavaScript |
 
 ## Contributing
 
