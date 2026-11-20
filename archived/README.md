@@ -7,7 +7,7 @@ Full project history via git subtree.
 | Folder | Description |
 |---|---|
 | NRS-FC | STM32F4 SRAD flight computer, didn't reach assembly. |
-| HAM | STM32 HAL helper for easier use of STM32. |
+| ham | STM32 HAL helper for easier use of STM32. |
 | NRS-PDU | Power distribution unit report. |
 | NRS-Groundstation | Ground station. |
 | NRS-Flight-Computer-Verification | Flight computer verification and test list. |
